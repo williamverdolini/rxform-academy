@@ -1,0 +1,68 @@
+<div class="m-h-6 p-6">
+
+  <mat-stepper orientation="vertical" #stepper>
+    <mat-step [stepControl]="f1">
+      <div >
+        <ng-template matStepLabel>Form Builder Academy: TOC</ng-template>
+        <ng-template matStepContent>
+          <div>
+            <h2>Benvenuto alla Form Builder Academy!</h2>
+            <p>In questo percorso vedremo:</p>
+            <ol start="2">
+              <li><button mat-button (click)="goToStep(stepper, 1)">Come creare un form con Form Builder</button></li>
+              <li><button mat-button (click)="goToStep(stepper, 2)">Comporre un form con gruppi e gestire correttamente i tipi (nonNullable, reset)</button></li>
+              <li><button mat-button (click)="goToStep(stepper, 3)">Come inizializzare un form in maniera async</button></li>
+              <li>Form con componenti dinamici</li>
+              <li>Form con componenti custom</li>
+              <li>Validazioni: sincrone, asincrone, di gruppo e del form</li>
+              <li>Validazioni: mostrare messaggi d'errore</li>
+              <li>Validazioni: come gestire i warning?</li>
+              <li>Come testare un component con reactive form</li>
+            </ol>
+          </div>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </ng-template>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="1">
+      <ng-template matStepLabel matStepperIcon="phone">Come creare un form con Form Builder</ng-template>
+      <ng-template matStepContent>
+        <app-step-1></app-step-1>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="2">
+      <ng-template matStepLabel>Comporre un form con gruppi e gestire correttamente i tipi (nonNullable, reset)</ng-template>
+      <ng-template matStepContent>
+        <app-non-nullable-controls></app-non-nullable-controls>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="3">
+      <ng-template matStepLabel>Come inizializzare un form in maniera async</ng-template>
+      <ng-template matStepContent>
+        <app-async-initialization></app-async-initialization>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1">
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

@@ -1,1 +1,416 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  )
+));
+
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  @include mat.all-component-themes($theme);
+}
+
+@include mat.core();
+@include mat.color-variants-backwards-compatibility($theme);
+
+.hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+
+td.hljs-ln-numbers {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border-right: 1px solid rgba(0, 0, 0, .1);
+}
+td.hljs-ln-code {
+  padding-left: 10px !important;
+}
+
+:root {
+  --spacing-unit: 8px;
+
+  --spacing-0: 0;
+  --spacing-0-5: calc(var(--spacing-unit) * 0.5);
+  --spacing-1: var(--spacing-unit);
+  --spacing-2: calc(var(--spacing-unit) * 2);
+  --spacing-3: calc(var(--spacing-unit) * 3);
+  --spacing-4: calc(var(--spacing-unit) * 4);
+  --spacing-6: calc(var(--spacing-unit) * 6);
+
+  // alias token
+  --j-gutter: var(--spacing-2);
+
+  // Altezza delle tab
+  --j-tabs-height: 30px;
+  // Margine tra due tab
+  --j-tabs-margin: 2px;
+
+  --topbar-height: 52px;
+  --sidebar-width: 188px;
+  --toast-notification-width: 420px;
+}
+
+$j-spacings: (0, "0-5", 1, 2, 4, 6);
+@each $key in $j-spacings {
+    .p-#{$key} {
+        padding: var(--spacing-#{$key});
+        &--important {
+            padding: var(--spacing-#{$key}) !important;
+        }
+    }
+    .p-v-#{$key} {
+        padding-top: var(--spacing-#{$key});
+        padding-bottom: var(--spacing-#{$key});
+        &--important {
+            padding-top: var(--spacing-#{$key}) !important;
+            padding-bottom: var(--spacing-#{$key}) !important;
+        }
+    }
+    .p-h-#{$key} {
+        padding-left: var(--spacing-#{$key});
+        padding-right: var(--spacing-#{$key});
+        &--important {
+            padding-left: var(--spacing-#{$key}) !important;
+            padding-right: var(--spacing-#{$key}) !important;
+        }
+    }
+    .p-l-#{$key} {
+        padding-left: var(--spacing-#{$key});
+        &--important {
+            padding-left: var(--spacing-#{$key}) !important;
+        }
+    }
+    .p-r-#{$key} {
+        padding-right: var(--spacing-#{$key});
+        &--important {
+            padding-right: var(--spacing-#{$key}) !important;
+        }
+    }
+    .p-t-#{$key} {
+        padding-top: var(--spacing-#{$key});
+        &--important {
+            padding-top: var(--spacing-#{$key}) !important;
+        }
+    }
+    .p-b-#{$key} {
+        padding-bottom: var(--spacing-#{$key});
+        &--important {
+            padding-bottom: var(--spacing-#{$key}) !important;
+        }
+    }
+
+    // margins
+    .m-#{$key} {
+        margin: var(--spacing-#{$key});
+        &--important {
+            margin: var(--spacing-#{$key}) !important;
+        }
+    }
+    .m-v-#{$key} {
+        margin-top: var(--spacing-#{$key});
+        margin-bottom: var(--spacing-#{$key});
+        &--important {
+            margin-top: var(--spacing-#{$key}) !important;
+            margin-bottom: var(--spacing-#{$key}) !important;
+        }
+    }
+    .m-h-#{$key} {
+        margin-left: var(--spacing-#{$key});
+        margin-right: var(--spacing-#{$key});
+        &--important {
+            margin-left: var(--spacing-#{$key}) !important;
+            margin-right: var(--spacing-#{$key}) !important;
+        }
+    }
+    .m-l-#{$key} {
+        margin-left: var(--spacing-#{$key});
+        &--important {
+            margin-left: var(--spacing-#{$key}) !important;
+        }
+    }
+    .m-r-#{$key} {
+        margin-right: var(--spacing-#{$key});
+        &--important {
+            margin-right: var(--spacing-#{$key}) !important;
+        }
+    }
+    .m-t-#{$key} {
+        margin-top: var(--spacing-#{$key});
+        &--important {
+            margin-top: var(--spacing-#{$key}) !important;
+        }
+    }
+    .m-b-#{$key} {
+        margin-bottom: var(--spacing-#{$key});
+        &--important {
+            margin-bottom: var(--spacing-#{$key}) !important;
+        }
+    }
+
+    .right-#{$key} {
+        right: var(--spacing-#{$key});
+        &--important {
+            right: var(--spacing-#{$key}) !important;
+        }
+    }
+
+    .gap-#{key} {
+        gap: var(--spacing-#{$key});
+        &--important {
+            gap: var(--spacing-#{$key}) !important;
+        }
+    }
+}
+
+
+@mixin flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column {
+  @include flex-column();
+
+  &-reverse {
+      @include flex-column();
+      flex-direction: column-reverse;
+  }
+
+  &-wrap {
+      @include flex-column();
+      flex-wrap: wrap;
+  }
+
+  &-wrap-reverse {
+      @include flex-column();
+      flex-wrap: wrap-reverse;
+  }
+}
+
+@mixin flex-row() {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-row {
+  @include flex-row();
+
+  &-reverse {
+      @include flex-row();
+      flex-direction: row-reverse;
+  }
+
+  &-wrap {
+      @include flex-row();
+      flex-wrap: wrap;
+  }
+
+  &-wrap-reverse {
+      @include flex-row();
+      flex-wrap: wrap-reverse;
+  }
+}
+
+.flex {
+  &-start {
+      justify-content: flex-start;
+  }
+
+  &-end {
+      justify-content: flex-end;
+  }
+
+  &-center {
+      justify-content: center;
+  }
+
+  &-space-between {
+      justify-content: space-between;
+  }
+
+  &-space-around {
+      justify-content: space-around;
+  }
+
+  &-space-evenly {
+      justify-content: space-evenly;
+  }
+}
+
+.flex-align {
+  &-start {
+      align-items: flex-start;
+  }
+
+  &-end {
+      align-items: flex-end;
+  }
+
+  &-center {
+      align-items: center;
+  }
+
+  &-baseline {
+      align-items: baseline;
+  }
+
+  &-stretch {
+      align-items: stretch;
+  }
+}
+
+.flex-align-self {
+  &-start {
+      align-self: flex-start;
+  }
+
+  &-end {
+      align-self: flex-end;
+  }
+
+  &-center {
+      align-self: center;
+  }
+
+  &-baseline {
+      align-self: baseline;
+  }
+
+  &-stretch {
+      align-self: stretch;
+  }
+}
+
+.flex-content {
+  &-start {
+      align-content: flex-start;
+  }
+
+  &-end {
+      align-content: flex-end;
+  }
+
+  &-center {
+      align-content: center;
+  }
+
+  &-space-between {
+      align-content: space-between;
+  }
+
+  &-space-around {
+      align-content: space-around;
+  }
+
+  &-stretch {
+      align-content: stretch;
+  }
+}
+
+@mixin flex-x-list {
+  @for $i from 1 through 7 {
+      .flex-#{$i} {
+          flex: #{$i};
+
+          &-important {
+              flex: #{$i} !important;
+          }
+      }
+  }
+}
+
+@include flex-x-list;
+
+@mixin flex-grow-x-list {
+  @for $i from 1 through 10 {
+      .flex-grow-#{$i} {
+          flex-grow: #{$i};
+      }
+  }
+}
+
+@include flex-grow-x-list;
+
+.flex-initial {
+  flex: initial;
+}
+
+.flex-no-shrink {
+  flex-shrink: 0;
+}
+
+$flex-basis-amount: (
+  0,
+  5,
+  10,
+  15,
+  20,
+  25,
+  30,
+  33,
+  35,
+  40,
+  45,
+  50,
+  60,
+  65,
+  66,
+  75
+);
+
+@each $amount in $flex-basis-amount {
+  .flex-basis-#{$amount}-perc {
+      flex-basis: #{$amount + "%"};
+  }
+}
+
+$margins: (
+  xs: 5px,
+  sm: 10px,
+  m: 15px,
+  l: 20px,
+  // TODO: put the design token here
+  xl: 25px,
+);
+$directions: (
+  left: left,
+  top: top,
+  bottom: bottom,
+  right: right,
+);
+
+.flex-margin {
+
+  @each $dir,
+  $direction in $directions {
+      &-#{$dir} {
+
+          @each $m,
+          $margin in $margins {
+              &-#{$m}>* {
+                  margin-#{$direction}: #{$margin};
+              }
+          }
+      }
+  }
+}
+
+.flex-justify {
+  &-self-end {
+      justify-self: flex-end;
+  }
+
+  &-self-start {
+      justify-self: flex-start;
+  }
+
+  &-self-center {
+      justify-content: center;
+  }
+}
+
+.d-flex {
+  display: flex;
+}

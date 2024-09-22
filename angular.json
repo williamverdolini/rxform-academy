@@ -32,7 +32,12 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.scss",
+              "./node_modules/highlight.js/styles/androidstudio.css",
+              "./node_modules/highlight.js/styles/github-dark.css",
+              "./node_modules/highlight.js/styles/github-dark-dimmed.css",
+              "./node_modules/highlight.js/styles/github.css"
             ],
             "scripts": []
           },
@@ -91,6 +96,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
             ],
             "scripts": []

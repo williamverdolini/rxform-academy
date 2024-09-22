@@ -1,0 +1,62 @@
+<div class="p-2">
+  <p>
+    La seguente form si inizializza in maniera sincrona con valori ed imposta dei controlli come NON NULLABILI.
+  </p>
+  <p>
+    Occorre fare attenzione alla gestione dei controlli di una form e prevedere che siano sempre nullabili, a fronte di un reset, a meno di non gestire con attenzione i campi realmente NON NULLABILI.
+  </p>
+
+  <div class="flex-row p-2">
+    <div [formGroup]="form" class="flex-column flex-1">
+      <mat-form-field>
+        <mat-label for="titolo">Titolo</mat-label>
+        <input type="text" name="titolo" matInput formControlName="titolo" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (option of titles; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="nome">Nome</mat-label>
+          <input name="nome" formControlName="nome" type="text" matInput/>
+        </mat-form-field>
+      </div>
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="cognome">Cognome</mat-label>
+          <input name="cognome" formControlName="cognome" type="text" matInput/>
+        </mat-form-field>
+      </div>
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="nicknane">Nickname</mat-label>
+          <input name="nicknane" formControlName="nicknane" type="text" matInput/>
+        </mat-form-field>
+      </div>
+      <div class="example-button-row">
+        <button mat-button (click)="form.reset()">Reset</button>
+      </div>
+    </div>
+    <div class="flex-1 p-2">
+      <p>Il valore della form:</p>
+      <pre class="flex-1 m-0">
+        <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </div>
+  </div>
+
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="HTML">
+      <pre class="m-0">
+        <code [highlight]="htmlCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="TS">
+      <pre class="m-0">
+        <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+  </mat-tab-group>
+</div>

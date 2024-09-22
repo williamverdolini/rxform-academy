@@ -1,15 +1,14 @@
 <div class="p-2">
   <p>
-    La seguente form si inizializza in maniera asincrona e si assicura che al reset
-    i campi nonNullable non vengano resettati.
+    The following form initializes asynchronously and ensures that nonNullable fields are not reset upon reset.
   </p>
 
   @if (form) {
     <div class="flex-row p-2">
       <div [formGroup]="form" class="flex-column flex-1">
         <mat-form-field>
-          <mat-label for="titolo">Titolo</mat-label>
-          <input type="text" name="titolo" matInput formControlName="titolo" [matAutocomplete]="auto">
+          <mat-label for="title">Title</mat-label>
+          <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
             @for (option of titles; track option) {
               <mat-option [value]="option">{{option}}</mat-option>
@@ -18,20 +17,20 @@
         </mat-form-field>
         <div class="flex-column">
           <mat-form-field>
-            <mat-label for="nome">Nome</mat-label>
-            <input name="nome" formControlName="nome" type="text" matInput/>
+            <mat-label for="firstName">First Name</mat-label>
+            <input name="firstName" formControlName="firstName" type="text" matInput/>
           </mat-form-field>
         </div>
         <div class="flex-column">
           <mat-form-field>
-            <mat-label for="cognome">Cognome</mat-label>
-            <input name="cognome" formControlName="cognome" type="text" matInput/>
+            <mat-label for="lastName">Last Name</mat-label>
+            <input name="lastName" formControlName="lastName" type="text" matInput/>
           </mat-form-field>
         </div>
         <div class="flex-column">
           <mat-form-field>
-            <mat-label for="nicknane">Nickname</mat-label>
-            <input name="nicknane" formControlName="nicknane" type="text" matInput/>
+            <mat-label for="nickname">Nickname</mat-label>
+            <input name="nickname" formControlName="nickname" type="text" matInput/>
           </mat-form-field>
         </div>
         <div class="example-button-row">
@@ -39,7 +38,7 @@
         </div>
       </div>
       <div class="flex-1 p-2">
-        <p>Il valore della form:</p>
+        <p>The value of the form:</p>
         <pre class="flex-1 m-0">
           <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
         </pre>
@@ -52,47 +51,45 @@
 
   @if (form) {
     <p>
-      La seguente form si popola con dati asincroni ad ogni reset
+      The following form is populated with asynchronous data on each reset
     </p>
     <div class="flex-row p-2">
-      <div [formGroup]="formProtocollo" class="flex-column flex-1">
+      <div [formGroup]="formProtocol" class="flex-column flex-1">
         <div class="flex-column">
           <mat-form-field>
-            <mat-label for="prefix">Prefisso</mat-label>
+            <mat-label for="prefix">Prefix</mat-label>
             <input name="prefix" formControlName="prefix" type="text" matInput/>
           </mat-form-field>
         </div>
         <div class="flex-column">
           <mat-form-field>
-            <mat-label for="counter">Contatore</mat-label>
+            <mat-label for="counter">Counter</mat-label>
             <input name="counter" formControlName="counter" type="text" matInput/>
           </mat-form-field>
         </div>
         <div class="flex-column">
           <mat-form-field>
-            <mat-label for="suffix">Suffisso</mat-label>
+            <mat-label for="suffix">Suffix</mat-label>
             <input name="suffix" formControlName="suffix" type="text" matInput/>
           </mat-form-field>
         </div>
         <div>
-          <button mat-button (click)="resetFormProtocollo()">Reset</button>
+          <button mat-button (click)="resetFormProtocol()">Reset</button>
         </div>
       </div>
       <div class="flex-1 p-2">
-        <p>Il valore della form:</p>
+        <p>The value of the form:</p>
         <pre class="flex-1 m-0">
-          <code [highlight]="formProtocollo.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
+          <code [highlight]="formProtocol.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
          </pre>
       </div>
     </div>
   }
 
-
-
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
     <mat-tab label="HTML">
       <pre class="m-0">
-        <code [highlight]="htmlCode" language="typescript" lineNumbers [singleLine]="true"></code>
+        <code [highlight]="htmlCode" language="xml" lineNumbers [singleLine]="true"></code>
       </pre>
     </mat-tab>
     <mat-tab label="TS">
@@ -103,6 +100,3 @@
   </mat-tab-group>
 
 </div>
-
-
-

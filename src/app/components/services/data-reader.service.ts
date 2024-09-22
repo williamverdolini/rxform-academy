@@ -14,8 +14,8 @@ export class DataReaderService {
     return new Promise<Config>((resolve) => {
       setTimeout(() => {
         resolve({
-          initialTitle: 'Sig.',
-          titles: ['Sig.', 'Sig.ra', 'Dott.', 'Dott.ssa'],
+          initialTitle: 'Mr.',
+          titles: ['Mr.', 'Mrs.', 'Dr.', 'Ms.'],
         });
       }, 2000);
     });

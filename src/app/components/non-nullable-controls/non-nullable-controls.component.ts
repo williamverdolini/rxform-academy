@@ -30,18 +30,18 @@ import { MatTabsModule } from '@angular/material/tabs';
 export class NonNullableControlsComponent {
   #fb = inject(FormBuilder);
 
-  protected titles: string[] = ['Sig.', 'Sig.ra', 'Dott.', 'Dott.ssa'];
+  protected titles: string[] = ['Mr.', 'Mrs.', 'Dr.', 'Ms.'];
   protected form = this.#fb.group({
-      titolo: new FormControl<string>(this.titles[0], { nonNullable: true, validators: [Validators.required] }),
-      nome: new FormControl<string>('', { validators: [Validators.required] }),
-      cognome: new FormControl<string>('', { validators: [Validators.required] }),
-      nicknane: new FormControl<string>(''),
+      title: new FormControl<string>(this.titles[0], { nonNullable: true, validators: [Validators.required] }),
+      firstName: new FormControl<string>('', { validators: [Validators.required] }),
+      lastName: new FormControl<string>('', { validators: [Validators.required] }),
+      nickname: new FormControl<string>(''),
     });
 
   protected htmlCode = `<div [formGroup]="form" class="flex-column flex-1">
       <mat-form-field>
-        <mat-label for="titolo">Titolo</mat-label>
-        <input type="text" name="titolo" matInput formControlName="titolo" [matAutocomplete]="auto">
+        <mat-label for="title">Title</mat-label>
+        <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           @for (option of titles; track option) {
             <mat-option [value]="option">{{option}}</mat-option>
@@ -50,20 +50,20 @@ export class NonNullableControlsComponent {
       </mat-form-field>
       <div class="flex-column">
         <mat-form-field>
-          <mat-label for="nome">Nome</mat-label>
-          <input name="nome" formControlName="nome" type="text" matInput/>
+          <mat-label for="firstName">First Name</mat-label>
+          <input name="firstName" formControlName="firstName" type="text" matInput/>
         </mat-form-field>
       </div>
       <div class="flex-column">
         <mat-form-field>
-          <mat-label for="cognome">Cognome</mat-label>
-          <input name="cognome" formControlName="cognome" type="text" matInput/>
+          <mat-label for="lastName">Last Name</mat-label>
+          <input name="lastName" formControlName="lastName" type="text" matInput/>
         </mat-form-field>
       </div>
       <div class="flex-column">
         <mat-form-field>
-          <mat-label for="nicknane">Nickname</mat-label>
-          <input name="nicknane" formControlName="nicknane" type="text" matInput/>
+          <mat-label for="nickname">Nickname</mat-label>
+          <input name="nickname" formControlName="nickname" type="text" matInput/>
         </mat-form-field>
       </div>
       <div class="example-button-row">
@@ -73,12 +73,12 @@ export class NonNullableControlsComponent {
 `;
   protected tsCode = `  #fb = inject(FormBuilder);
 
-  protected titles: string[] = ['Sig.', 'Sig.ra', 'Dott.', 'Dott.ssa'];
+  protected titles: string[] = ['Mr.', 'Mrs.', 'Dr.', 'Ms.'];
   protected form = this.#fb.group({
-      titolo: new FormControl<string>(this.titles[0], { nonNullable: true, validators: [Validators.required] }),
-      nome: new FormControl<string>('', { validators: [Validators.required] }),
-      cognome: new FormControl<string>('', { validators: [Validators.required] }),
-      nicknane: new FormControl<string>(''),
+      title: new FormControl<string>(this.titles[0], { nonNullable: true, validators: [Validators.required] }),
+      firstName: new FormControl<string>('', { validators: [Validators.required] }),
+      lastName: new FormControl<string>('', { validators: [Validators.required] }),
+      nickname: new FormControl<string>(''),
     });
 `;
 }

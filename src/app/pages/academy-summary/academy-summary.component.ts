@@ -9,7 +9,9 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { NonNullableControlsComponent } from '../../components/non-nullable-controls/non-nullable-controls.component';
 import { AsyncInitializationComponent } from '../../components/async-initialization/async-initialization.component';
-import { DynamicComponentsComponent } from '../../components/dynamic-component/dynamic-component.component';
+import { DynamicControlComponent } from '../../components/dynamic-control/dynamic-control.component';
+import { CustomComponentsComponent } from '../../components/custom-components/custom-components.component';
+import { FormValidationsComponent } from '../../components/form-validations/form-validations.component';
 
 @Component({
   selector: 'app-academy-summary',
@@ -32,7 +34,9 @@ import { DynamicComponentsComponent } from '../../components/dynamic-component/d
     FormBuilderIntroComponent,
     NonNullableControlsComponent,
     AsyncInitializationComponent,
-    DynamicComponentsComponent
+    DynamicControlComponent,
+    CustomComponentsComponent,
+    FormValidationsComponent
   ],
   templateUrl: './academy-summary.component.html',
   styleUrl: './academy-summary.component.scss'

@@ -12,9 +12,9 @@
               <li><button mat-button (click)="goToStep(stepper, 1)">How to create a form with Form Builder</button></li>
               <li><button mat-button (click)="goToStep(stepper, 2)">Use nonNullable types and correctly manage form reset</button></li>
               <li><button mat-button (click)="goToStep(stepper, 3)">How to initialize a form asynchronously</button></li>
-              <li><button mat-button (click)="goToStep(stepper, 4)">Form with dynamic components</button></li>
-              <li>Form with custom components</li>
-              <li>Validations: synchronous, asynchronous, group, and form validations</li>
+              <li><button mat-button (click)="goToStep(stepper, 4)">Form with dynamic controls</button></li>
+              <li><button mat-button (click)="goToStep(stepper, 5)">Form with custom components</button></li>
+              <li><button mat-button (click)="goToStep(stepper, 6)">Validations: synchronous, asynchronous, control and group validations</button></li>
               <li>Validations: displaying error messages</li>
               <li>Validations: how to handle warnings?</li>
               <li>How to test a component with reactive forms</li>
@@ -60,9 +60,31 @@
       </ng-template>
     </mat-step>
     <mat-step [stepControl]="f1" data-step="4">
-      <ng-template matStepLabel>Form with dynamic components</ng-template>
+      <ng-template matStepLabel>Form with dynamic controls</ng-template>
       <ng-template matStepContent>
-        <app-dynamic-component></app-dynamic-component>
+        <app-dynamic-control></app-dynamic-control>
+        <div>
+          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="5">
+      <ng-template matStepLabel>Form with custom components</ng-template>
+      <ng-template matStepContent>
+        <app-custom-components></app-custom-components>
+        <div>
+          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="6">
+      <ng-template matStepLabel>Validations: synchronous, asynchronous, control and group validations</ng-template>
+      <ng-template matStepContent>
+        <app-form-validations></app-form-validations>
         <div>
           <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
           <button mat-button matStepperPrevious>Back</button>

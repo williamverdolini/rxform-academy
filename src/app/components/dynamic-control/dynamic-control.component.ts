@@ -14,7 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-dynamic-component',
+  selector: 'app-dynamic-control',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,13 +30,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     Highlight,
     HighlightLineNumbers
   ],
-  templateUrl: './dynamic-component.component.html',
+  templateUrl: './dynamic-control.component.html',
 })
-export class DynamicComponentsComponent {
+export class DynamicControlComponent {
   #fb = inject(FormBuilder);
 
   #automaticBehavior = false;
-  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 3'];
+  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 4'];
 
   protected form = this.#fb.group({
     title: new FormControl<string>('', { validators: [Validators.required] }),
@@ -96,7 +96,7 @@ export class DynamicComponentsComponent {
       }
 `;
   protected tsCode = `  #automaticBehavior = false;
-  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 3'];
+  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 4'];
 
   protected form = this.#fb.group({
     title: new FormControl<string>('', { validators: [Validators.required] }),

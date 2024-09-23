@@ -1,0 +1,96 @@
+<div class="p-2">
+  <h2>Validations: synchronous, asynchronous, control and group validations</h2>
+  <p>
+    This part delves into the intricacies of implementing reactive form validations in Angular,
+    using a practical example of a form validation component. The example leverages Angular's <code>ReactiveFormsModule</code>
+    to create a robust form with multiple controls, including text inputs, checkboxes, and date pickers.
+  </p>
+  <p>
+    The component demonstrates the use of both synchronous and asynchronous validators to enforce rules such as required fields,
+    date comparisons, and unique nickname checks. It also showcases how to dynamically enable or disable form controls
+    based on user interactions and how to provide real-time feedback by updating error messages as the form's state changes.
+  </p>
+
+  <div class="flex-row p-2">
+    <div [formGroup]="form" class="flex-column flex-1">
+      <mat-form-field>
+        <mat-label for="title">Lesson Title</mat-label>
+        <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (option of titles; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="flex-column">
+        <div>
+          <mat-label for="completed">Course completed</mat-label>
+          <mat-checkbox name="completed" formControlName="completed"></mat-checkbox>
+        </div>
+      </div>
+      @if (form.get('completed')?.value) {
+        <mat-label>Period</mat-label>
+        <div class="flex-row" formGroupName="period">
+          <mat-form-field class="flex-1">
+            <mat-label for="fromDate">From Date</mat-label>
+            <input name="fromDate" formControlName="fromDate" [matDatepicker]="pickerFD" matInput/>
+            <mat-datepicker-toggle matIconSuffix [for]="pickerFD"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFD></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="flex-1 m-l-1">
+            <mat-label for="toDate">To Date</mat-label>
+            <input name="toDate" formControlName="toDate" [matDatepicker]="pickerTD" matInput/>
+            <mat-datepicker-toggle matIconSuffix [for]="pickerTD"></mat-datepicker-toggle>
+            <mat-datepicker #pickerTD></mat-datepicker>
+          </mat-form-field>
+        </div>
+      }
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="nickname">Nickname</mat-label>
+          <input name="nickname" formControlName="nickname" type="text" matInput/>
+        </mat-form-field>
+      </div>
+      @if (form.touched && form.invalid) {
+      <div class="flex-column">
+          <mat-error>
+            Attention! The form contains the following errors:
+            <ol>
+              @for (item of errorMessages(); track item) {
+                <li>{{item}}</li>
+              }
+            </ol>
+          </mat-error>
+        </div>
+      }
+      <div class="flex-row">
+        <button mat-button (click)="form.reset()">Reset</button>
+        <button mat-button mat-flat-button [disabled]="form.invalid">Save</button>
+      </div>
+    </div>
+    <div class="flex-1 p-2">
+      <p>The value of the form:</p>
+      <pre class="flex-1 m-0">
+        <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </div>
+  </div>
+
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="HTML">
+      <pre class="m-0">
+        <code [highlight]="htmlCode" language="xml" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="TS">
+      <pre class="m-0">
+        <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="nickName-check-validator.ts">
+      <pre class="m-0">
+        <code [highlight]="asyncValidatorCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+  </mat-tab-group>
+</div>

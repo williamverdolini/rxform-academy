@@ -34,11 +34,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 export class FormBuilderIntroComponent {
   #fb = inject(FormBuilder);
 
-  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 3'];
+  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 4'];
   protected form = this.#fb.group({
       title: new FormControl<string>('', { validators: [Validators.required] }),
-      // completed: new FormControl<boolean>(false, { validators: [Validators.required] }),
-      completed: [false, Validators.required],
+      // completed: new FormControl<boolean>(false),
+      completed: [ false ],
       period: this.#fb.group({
         fromDate: new FormControl<Date | null>(null, { validators: [Validators.required] }),
         toDate: new FormControl<Date | null>(null, { validators: [Validators.required] })
@@ -91,7 +91,7 @@ export class FormBuilderIntroComponent {
 `;
   protected tsCode = `  #fb = inject(FormBuilder);
 
-  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 3'];
+  protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 4'];
   protected form = this.#fb.group({
       title: new FormControl<string>('', { validators: [Validators.required] }),
       // different syntax, less verbose, less clear, same result

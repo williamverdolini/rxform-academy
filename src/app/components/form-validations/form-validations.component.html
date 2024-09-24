@@ -12,7 +12,7 @@
   </p>
 
   <div class="flex-row p-2">
-    <div [formGroup]="form" class="flex-column flex-1">
+    <div [formGroup]="form" aria-label="form" class="flex-column flex-1">
       <mat-form-field>
         <mat-label for="title">Lesson Title</mat-label>
         <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
@@ -25,7 +25,7 @@
       <div class="flex-column">
         <div>
           <mat-label for="completed">Course completed</mat-label>
-          <mat-checkbox name="completed" formControlName="completed"></mat-checkbox>
+          <mat-checkbox name="completed" aria-label="Course completed" formControlName="completed"></mat-checkbox>
         </div>
       </div>
       @if (form.get('completed')?.value) {
@@ -51,8 +51,8 @@
           <input name="nickname" formControlName="nickname" type="text" matInput/>
         </mat-form-field>
       </div>
-      @if (form.touched && form.invalid) {
-      <div class="flex-column">
+      @if (form.dirty && form.invalid) {
+      <div class="flex-column" role="alert">
           <mat-error>
             Attention! The form contains the following errors:
             <ol>
@@ -68,7 +68,7 @@
         <button mat-button mat-flat-button [disabled]="form.invalid">Save</button>
       </div>
     </div>
-    <div class="flex-1 p-2">
+    <div class="flex-1 p-h-2">
       <p>The value of the form:</p>
       <pre class="flex-1 m-0">
         <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>

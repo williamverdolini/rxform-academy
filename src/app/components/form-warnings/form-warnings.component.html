@@ -1,51 +1,83 @@
 <div class="p-2">
-  <h2>How to create a form with Form Builder</h2>
+  <h2>Validations: how to handle warnings?</h2>
   <p>
-    The following form initializes synchronously with values and sets controls as NON-NULLABLE.
+    There doesn't seem to be an effective way, with reactive forms, to handle validations with warnings. Why?<br>
+    Because validations (both synchronous and asynchronous) are designed to block the form and provide
+    feedback to the user in case of an error.
+    Validations with warnings, on the other hand, should not block the form but continue to provide feedback to the
+    user.
   </p>
   <p>
-    Care must be taken in managing the controls of a form and ensuring they are always nullable, in case of a reset, unless the fields are truly NON-NULLABLE.
+    The only possible solutions are to "sneak" into the validation process and populate the warnings
+    through signals (or similar) and to handle the warnings externally to the reactive forms.
   </p>
 
   <div class="flex-row p-2">
-    <div [formGroup]="form" class="flex-column flex-1">
+    <div [formGroup]="form" aria-label="form" class="flex-column flex-1">
       <mat-form-field>
         <mat-label for="title">Lesson Title</mat-label>
         <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           @for (option of titles; track option) {
-            <mat-option [value]="option">{{option}}</mat-option>
+          <mat-option [value]="option">{{option}}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
       <div class="flex-column">
         <div>
           <mat-label for="completed">Course completed</mat-label>
-          <mat-checkbox name="completed" formControlName="completed"></mat-checkbox>
+          <mat-checkbox name="completed" aria-label="Course completed" formControlName="completed"></mat-checkbox>
         </div>
       </div>
+      @if (form.get('completed')?.value) {
       <mat-label>Period</mat-label>
       <div class="flex-row" formGroupName="period">
         <mat-form-field class="flex-1">
           <mat-label for="fromDate">From Date</mat-label>
-          <input name="fromDate" formControlName="fromDate" [matDatepicker]="pickerFD" matInput/>
+          <input name="fromDate" formControlName="fromDate" [matDatepicker]="pickerFD" matInput />
           <mat-datepicker-toggle matIconSuffix [for]="pickerFD"></mat-datepicker-toggle>
           <mat-datepicker #pickerFD></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="flex-1 m-l-1">
           <mat-label for="toDate">To Date</mat-label>
-          <input name="toDate" formControlName="toDate" [matDatepicker]="pickerTD" matInput/>
+          <input name="toDate" formControlName="toDate" [matDatepicker]="pickerTD" matInput />
           <mat-datepicker-toggle matIconSuffix [for]="pickerTD"></mat-datepicker-toggle>
           <mat-datepicker #pickerTD></mat-datepicker>
         </mat-form-field>
       </div>
+      }
       <div class="flex-column">
         <mat-form-field>
-          <mat-label for="nickname">Nickname</mat-label>
-          <input name="nickname" formControlName="nickname" type="text" matInput/>
+          <mat-label for="username">Username</mat-label>
+          <input name="username" formControlName="username" type="text" matInput />
         </mat-form-field>
       </div>
-      <div class="example-button-row">
+      @if (form.dirty && form.invalid) {
+      <div class="flex-column" role="alert">
+        <mat-error>
+          Attention! The form contains the following errors:
+          <ol>
+            @for (item of errorMessages(); track item) {
+            <li>{{item}}</li>
+            }
+          </ol>
+        </mat-error>
+      </div>
+      }
+      @if (form.dirty && waningMessages().length > 0) {
+      <div class="flex-column" role="alert">
+        <mat-hint style="color: darkgoldenrod;">
+          Warning:
+          <ol>
+            @for (item of waningMessages(); track item) {
+            <li>{{item}}</li>
+            }
+          </ol>
+        </mat-hint>
+      </div>
+      }
+
+      <div class="flex-row">
         <button mat-button (click)="form.reset()">Reset</button>
         <button mat-button mat-flat-button [disabled]="form.invalid">Save</button>
       </div>

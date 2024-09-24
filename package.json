@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "jest",
+    "jest": "jest"
   },
   "private": true,
   "dependencies": {
@@ -30,13 +31,18 @@
     "@angular-devkit/build-angular": "^18.2.5",
     "@angular/cli": "^18.2.5",
     "@angular/compiler-cli": "^18.2.0",
-    "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.2.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
+    "@types/jest": "^29.5.12",
+    "@testing-library/angular": "17.3.1",
+    "@testing-library/jest-dom": "6.5.0",
+    "@testing-library/user-event": "14.5.2",
+    "jest": "^29.7.0",
+    "jest-preset-angular": "14.2.2",
     "typescript": "~5.5.2"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setup.jest.ts"
+    ]
   }
 }

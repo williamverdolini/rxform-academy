@@ -12,6 +12,8 @@ import { AsyncInitializationComponent } from '../../components/async-initializat
 import { DynamicControlComponent } from '../../components/dynamic-control/dynamic-control.component';
 import { CustomComponentsComponent } from '../../components/custom-components/custom-components.component';
 import { FormValidationsComponent } from '../../components/form-validations/form-validations.component';
+import { FormTestingComponent } from '../../components/form-testing/form-testing.component';
+import { FormWarningsComponent } from '../../components/form-warnings/form-warnings.component';
 
 @Component({
   selector: 'app-academy-summary',
@@ -36,7 +38,9 @@ import { FormValidationsComponent } from '../../components/form-validations/form
     AsyncInitializationComponent,
     DynamicControlComponent,
     CustomComponentsComponent,
-    FormValidationsComponent
+    FormValidationsComponent,
+    FormTestingComponent,
+    FormWarningsComponent
   ],
   templateUrl: './academy-summary.component.html',
   styleUrl: './academy-summary.component.scss'
@@ -47,6 +51,10 @@ export class AcademySummaryComponent {
 
   protected goToStep(stepper: MatStepper, step: number) {
     stepper.selectedIndex = step;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   public onStepperSelectionChange(evant: any) {

@@ -1,0 +1,45 @@
+<div class="p-2">
+  <h2>How to test a component with reactive forms</h2>
+  <p>
+    <b>Rendering the Component:</b>
+    The render function from &#64;testing-library/angular is used to render the FormValidationsComponent in each test. This allows for interaction with the component as if it were in a real application.
+  </p>
+  <p>
+    <b>Initial State Verification:</b>
+    Tests verify the initial state of the form, ensuring that only specific fields are present and others are not.
+  </p>
+  <p>
+    <b>Form Interaction:</b>
+    User interactions are simulated using fireEvent and userEvent to test how the form responds.
+  </p>
+  <p>
+    <b>Form Value and Validity Checks:</b>
+    The form's values and validity are checked after interactions. For instance, ensuring that the form's value updates correctly when fields are filled and that the form's validity status changes appropriately.
+  </p>
+  <p>
+    <b>Custom Validation:</b>
+    Custom validation logic is tested, such as checking that the "To Date" is not earlier than the "From Date" and that the "Nickname" is unique. Errors are verified using form.hasError and form.getError.
+  </p>
+  <p>
+    <b>Error Messages and Alerts:</b>
+    Tests check for the presence of error messages and alerts when the form is invalid.
+  </p>
+
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="form-validations.component.spec.ts">
+      <pre class="m-0">
+        <code [highlight]="testCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="HTML">
+      <pre class="m-0">
+        <code [highlight]="htmlCode" language="xml" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="TS">
+      <pre class="m-0">
+        <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+  </mat-tab-group>
+</div>

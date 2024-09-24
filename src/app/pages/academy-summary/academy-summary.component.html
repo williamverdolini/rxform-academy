@@ -1,7 +1,25 @@
 <div class="m-h-6 p-6">
 
+  <div>
+    <div class="m-t-1">
+      <h2>Welcome to the Form Builder Academy!</h2>
+      <p>In this course, we will cover:</p>
+      <ol start="1">
+        <li><button mat-button (click)="goToStep(stepper, 0)">How to create a form with Form Builder</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 1)">Use nonNullable types and correctly manage form reset</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 2)">How to initialize a form asynchronously</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 3)">Form with dynamic controls</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 4)">Form with custom components</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 5)">Validations: synchronous, asynchronous, control and group validations</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 6)">How to test a component with reactive forms</button></li>
+        <li><button mat-button (click)="goToStep(stepper, 7)">Validations: how to handle warnings?</button></li>
+      </ol>
+    </div>
+  </div>
+
+
   <mat-stepper orientation="vertical" #stepper class="stepperTop" (selectionChange)="onStepperSelectionChange($event)">
-    <mat-step [stepControl]="f1">
+    <!-- <mat-step [stepControl]="f1">
       <div>
         <ng-template matStepLabel>Form Builder Academy: Table of contents</ng-template>
         <ng-template matStepContent>
@@ -15,9 +33,8 @@
               <li><button mat-button (click)="goToStep(stepper, 4)">Form with dynamic controls</button></li>
               <li><button mat-button (click)="goToStep(stepper, 5)">Form with custom components</button></li>
               <li><button mat-button (click)="goToStep(stepper, 6)">Validations: synchronous, asynchronous, control and group validations</button></li>
-              <li>Validations: displaying error messages</li>
-              <li>Validations: how to handle warnings?</li>
-              <li>How to test a component with reactive forms</li>
+              <li><button mat-button (click)="goToStep(stepper, 7)">How to test a component with reactive forms</button></li>
+              <li><button mat-button (click)="goToStep(stepper, 8)">Validations: how to handle warnings?</button></li>
             </ol>
           </div>
           <div>
@@ -25,13 +42,13 @@
           </div>
         </ng-template>
       </div>
-    </mat-step>
+    </mat-step> -->
     <mat-step [stepControl]="f1" data-step="1">
       <ng-template matStepLabel matStepperIcon="phone">How to create a form with Form Builder</ng-template>
       <ng-template matStepContent>
         <app-form-builder-intro></app-form-builder-intro>
         <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button (click)="scrollToTop()">TOC</button>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -42,7 +59,7 @@
       <ng-template matStepContent>
         <app-non-nullable-controls></app-non-nullable-controls>
         <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button (click)="scrollToTop()">TOC</button>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -53,7 +70,7 @@
       <ng-template matStepContent>
         <app-async-initialization></app-async-initialization>
         <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button (click)="scrollToTop()">TOC</button>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -64,7 +81,7 @@
       <ng-template matStepContent>
         <app-dynamic-control></app-dynamic-control>
         <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button (click)="scrollToTop()">TOC</button>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -75,7 +92,7 @@
       <ng-template matStepContent>
         <app-custom-components></app-custom-components>
         <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button (click)="scrollToTop()">TOC</button>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -86,7 +103,29 @@
       <ng-template matStepContent>
         <app-form-validations></app-form-validations>
         <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
+          <button mat-button (click)="scrollToTop()">TOC</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="7">
+      <ng-template matStepLabel>How to test a component with reactive forms</ng-template>
+      <ng-template matStepContent>
+        <app-form-testing></app-form-testing>
+        <div>
+          <button mat-button (click)="scrollToTop()">TOC</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="f1" data-step="8">
+      <ng-template matStepLabel>Validations: how to handle warnings?</ng-template>
+      <ng-template matStepContent>
+        <app-form-warnings></app-form-warnings>
+        <div>
+          <button mat-button (click)="scrollToTop()">TOC</button>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -96,6 +135,7 @@
       <ng-template matStepLabel>Done</ng-template>
       <p>You are now done.</p>
       <div>
+        <button mat-button (click)="scrollToTop()">TOC</button>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button (click)="stepper.reset()">Reset</button>
       </div>

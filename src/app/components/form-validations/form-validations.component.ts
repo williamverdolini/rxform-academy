@@ -51,7 +51,7 @@ export class FormValidationsComponent {
       switchMap(() => {
         return this.#dr.isValidNickname(control.value);
       }),
-      map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions} } : null)
+      map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions } } : null)
     );
   }
 
@@ -240,11 +240,11 @@ import { DataReaderService } from '../../services/data-reader.service';
 
 export class NickNameCheckValidator {
   static createValidator(readerClient: DataReaderService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors> => {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return readerClient
         .isValidNickname(control.value)
         .pipe(
-          map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions} } : null)
+          map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions } } : null)
         );
     };
   }

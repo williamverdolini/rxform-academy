@@ -29,6 +29,12 @@ td.hljs-ln-code {
   padding-left: 10px !important;
 }
 
+ng-select.has-error .ng-select-container,
+ng-select.ng-invalid .ng-select-container,
+ng-select.invalid .ng-select-container {
+    border-color: #ba1a1a;
+}
+
 :root {
   --spacing-unit: 8px;
 

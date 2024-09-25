@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { NgSelectComponent, NgSelectModule } from "@ng-select/ng-select";
-import { debounceTime, distinctUntilChanged, filter, Subject, switchMap, takeUntil, tap, withLatestFrom } from "rxjs";
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter, Subject, switchMap, takeUntil, tap } from "rxjs";
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { DataReaderService } from '../services/data-reader.service';
 
 export interface PropertySelectionItem {
@@ -14,11 +14,13 @@ export interface PropertySelectionItem {
   standalone: true,
   selector: 'app-property-selector',
   imports: [NgSelectModule, FormsModule],
-  providers: [{
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: PropertySelectorComponent,
-      multi: true
-  }],
+  providers: [
+    // {
+    //   provide: NG_VALUE_ACCESSOR,
+    //   useExisting: PropertySelectorComponent,
+    //   multi: true
+    // },
+  ],
   template: `
         <ng-select #selector
             [multiple]="multiple"
@@ -31,6 +33,8 @@ export interface PropertySelectionItem {
             [virtualScroll]="true"
             [readonly]="disabled()"
             class="m-t-0-5"
+            [class.ng-invalid]="ngControl.invalid"
+            [class.ng-valid]="ngControl.valid"
             [ngModel]="values()"
             (change)="selectType($event)">
             <ng-template ng-option-tmp let-item="item">
@@ -65,10 +69,12 @@ export class PropertySelectorComponent implements OnInit, ControlValueAccessor {
   protected searchInQuery$ = new Subject<string>();
 
   private readerClient = inject(DataReaderService);
+  public ngControl = inject(NgControl);
   private searchResultItems: PropertySelectionItem[] = [];
-  public currentSelection: PropertySelectionItem[] = [];
+  public currentSelection: PropertySelectionItem[] | null = [];
 
   constructor() {
+    this.ngControl.valueAccessor = this;
     this.searchInQuery$.pipe(
       takeUntil(this.destroy$),
       filter(_ => !this.loading),
@@ -91,8 +97,8 @@ export class PropertySelectorComponent implements OnInit, ControlValueAccessor {
   }
 
   /** VALIDATION ACCESSOR METHODS */
-  private onTouched = () => {};
-  private onChange = (obj: PropertySelectionItem[] | PropertySelectionItem | undefined) => {};
+  private onTouched = () => { };
+  private onChange = (obj: PropertySelectionItem[] | PropertySelectionItem | null) => { };
 
   writeValue(obj: PropertySelectionItem[]): void {
     this.values.set(obj ?? []);
@@ -112,12 +118,12 @@ export class PropertySelectorComponent implements OnInit, ControlValueAccessor {
   };
 
   private updateSelectableItems() {
-    this.typeItems = this.searchResultItems.filter(i => !this.currentSelection.some(s => s.id === i.id));
+    this.typeItems = this.searchResultItems.filter(i => !this.currentSelection?.some(s => s.id === i.id));
   }
 
   protected selectType(selected: PropertySelectionItem[] | PropertySelectionItem | undefined) {
     if (!selected) {
-      this.currentSelection = [];
+      this.currentSelection = null;
       this.change.next(undefined);
     } else if (Array.isArray(selected)) {
       this.currentSelection = [...selected];
@@ -127,6 +133,7 @@ export class PropertySelectorComponent implements OnInit, ControlValueAccessor {
       this.change.next([selected])
     }
     this.onChange(this.currentSelection);
+    this.onTouched();
   }
 
   public clear() {

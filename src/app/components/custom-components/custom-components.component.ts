@@ -222,4 +222,36 @@ export class PropertySelectorComponent implements OnInit, ControlValueAccessor {
   }
 }
 `;
+
+protected modifiedCustomPropCode = `
+@Component({
+ standalone: true,
+ selector: 'app-property-selector',
+ imports: [NgSelectModule, FormsModule],
+ providers: [
+   // {
+   //   provide: NG_VALUE_ACCESSOR,
+   //   useExisting: PropertySelectorComponent,
+   //   multi: true
+   // },
+ ],
+ template: \`
+       <ng-select #selector
+           ...
+           [class.ng-invalid]="ngControl.invalid"
+           [class.ng-valid]="ngControl.valid"
+           [ngModel]="values()"
+           (change)="selectType($event)">
+           ...
+       </ng-select>\`
+})
+export class PropertySelectorComponent implements OnInit, ControlValueAccessor {
+ public ngControl = inject(NgControl);
+
+ constructor() {
+   this.ngControl.valueAccessor = this;
+ }
+}
+`;
+
 }

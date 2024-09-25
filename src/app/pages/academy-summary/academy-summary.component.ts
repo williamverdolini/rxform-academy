@@ -1,8 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilderIntroComponent } from '../../components/form-builder-intro/form-builder-intro.component';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -14,6 +10,7 @@ import { CustomComponentsComponent } from '../../components/custom-components/cu
 import { FormValidationsComponent } from '../../components/form-validations/form-validations.component';
 import { FormTestingComponent } from '../../components/form-testing/form-testing.component';
 import { FormWarningsComponent } from '../../components/form-warnings/form-warnings.component';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-academy-summary',
@@ -27,11 +24,6 @@ import { FormWarningsComponent } from '../../components/form-warnings/form-warni
   imports: [
     CommonModule,
     MatButtonModule,
-    MatStepperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     //component imports
     FormBuilderIntroComponent,
     NonNullableControlsComponent,
@@ -40,36 +32,38 @@ import { FormWarningsComponent } from '../../components/form-warnings/form-warni
     CustomComponentsComponent,
     FormValidationsComponent,
     FormTestingComponent,
-    FormWarningsComponent
+    FormWarningsComponent,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader
   ],
   templateUrl: './academy-summary.component.html',
   styleUrl: './academy-summary.component.scss'
 })
 export class AcademySummaryComponent {
-  #fb = inject(FormBuilder);
-  f1 = this.#fb.group({ firstCtrl: ['', Validators.required] });
-
-  protected goToStep(stepper: MatStepper, step: number) {
-    stepper.selectedIndex = step;
-  }
-
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  public onStepperSelectionChange(evant: any) {
-    this.scrollToSectionHook();
-  }
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  panels = [
+    { title: 'Introduction', component: 'app-form-builder-intro', expanded: false },
+    { title: 'Non-Nullable Controls', component: 'app-non-nullable-controls', expanded: false },
+    { title: 'Async Initialization', component: 'app-async-initialization', expanded: false },
+    { title: 'Dynamic Control', component: 'app-dynamic-control', expanded: false },
+    { title: 'Custom Components', component: 'app-custom-components', expanded: false },
+    { title: 'Form Validations', component: 'app-form-validations', expanded: false },
+    { title: 'Form Testing', component: 'app-form-testing', expanded: false },
+    { title: 'Form Warnings', component: 'app-form-warnings', expanded: false },
+    { title: 'Conclusions', component: 'conclusions', expanded: false }
+  ];
 
-  private scrollToSectionHook() {
-    const element = document.querySelector('.stepperTop');
-    if (element) {
-      setTimeout(() => {
-        element.scrollIntoView({
-          behavior: 'smooth', block: 'start', inline:
-            'nearest'
-        });
-      }, 100);
-    }
+  closePanel(index: number) {
+    setTimeout(() => {
+      if (this.accordion) {
+        this.accordion.closeAll();
+      }
+    }, 0);
   }
 }

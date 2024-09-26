@@ -56,7 +56,7 @@ export class AcademySummaryComponent {
     { title: 'Non-Nullable Controls', component: 'app-non-nullable-controls', expanded: false },
     { title: 'Async Initialization', component: 'app-async-initialization', expanded: false },
     { title: 'Dynamic Control', component: 'app-dynamic-control', expanded: false },
-    { title: 'Custom Components', component: 'app-custom-components', expanded: false },
+    { title: 'Custom Control', component: 'app-custom-components', expanded: false },
     { title: 'Form Validations', component: 'app-form-validations', expanded: false },
     { title: 'Form Composing', component: 'app-form-composing', expanded: false },
     { title: 'Form Composing & Communication (Advanced)', component: 'form-composing-communicating', expanded: false },

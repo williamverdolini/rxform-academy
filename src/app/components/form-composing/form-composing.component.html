@@ -1,0 +1,59 @@
+<div class="p-2">
+  <h2>How to compose form with internal custom forms</h2>
+  <p>
+    In order to create simple and reusable components, it is possible to create components that manage a form internally.
+    In these cases, it must be possible to make the custom form communicate with the main form that uses it.
+  </p>
+
+  <div class="flex-row p-2">
+    <div [formGroup]="form" class="flex-column flex-1">
+      <app-address class="flex-column" formControlName="address"></app-address>
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="nickname">Username</mat-label>
+          <input name="username" formControlName="username" type="text" matInput />
+        </mat-form-field>
+      </div>
+      <div class="example-button-row">
+        <button mat-button (click)="form.reset()">Reset</button>
+        <button mat-button mat-flat-button [disabled]="form.invalid">Save</button>
+      </div>
+      @if (form.dirty && form.invalid) {
+      <div class="flex-column" role="alert">
+        <mat-error>
+          Attention! The form contains the following errors:
+          <ol>
+            @for (item of errorMessages(); track item) {
+            <li>{{item}}</li>
+            }
+          </ol>
+        </mat-error>
+      </div>
+      }
+    </div>
+    <div class="flex-1 p-h-2">
+      <p>The value of the form:</p>
+      <pre class="flex-1 m-0">
+        <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </div>
+  </div>
+
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="HTML">
+      <pre class="m-0">
+        <code [highlight]="htmlCode" language="xml" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="TS">
+      <pre class="m-0">
+        <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="address.component.ts">
+      <pre class="m-0">
+        <code [highlight]="addressComponentCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+  </mat-tab-group>
+</div>

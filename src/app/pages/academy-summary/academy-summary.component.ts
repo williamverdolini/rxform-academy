@@ -11,6 +11,8 @@ import { FormValidationsComponent } from '../../components/form-validations/form
 import { FormTestingComponent } from '../../components/form-testing/form-testing.component';
 import { FormWarningsComponent } from '../../components/form-warnings/form-warnings.component';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { FormComposingComponent } from '../../components/form-composing/form-composing.component';
+import { FormComposingCommunicatingComponent } from '../../components/form-composing-communicating/form-composing-communicating.component';
 
 @Component({
   selector: 'app-academy-summary',
@@ -24,6 +26,10 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionP
   imports: [
     CommonModule,
     MatButtonModule,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader,
     //component imports
     FormBuilderIntroComponent,
     NonNullableControlsComponent,
@@ -33,10 +39,8 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionP
     FormValidationsComponent,
     FormTestingComponent,
     FormWarningsComponent,
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelTitle,
-    MatExpansionPanelHeader
+    FormComposingComponent,
+    FormComposingCommunicatingComponent,
   ],
   templateUrl: './academy-summary.component.html',
   styleUrl: './academy-summary.component.scss'
@@ -54,6 +58,8 @@ export class AcademySummaryComponent {
     { title: 'Dynamic Control', component: 'app-dynamic-control', expanded: false },
     { title: 'Custom Components', component: 'app-custom-components', expanded: false },
     { title: 'Form Validations', component: 'app-form-validations', expanded: false },
+    { title: 'Form Composing', component: 'app-form-composing', expanded: false },
+    { title: 'Form Composing & Communication (Advanced)', component: 'form-composing-communicating', expanded: false },
     { title: 'Form Testing', component: 'app-form-testing', expanded: false },
     { title: 'Form Warnings', component: 'app-form-warnings', expanded: false },
     { title: 'Conclusions', component: 'conclusions', expanded: false }

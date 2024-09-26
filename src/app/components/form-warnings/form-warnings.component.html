@@ -11,6 +11,11 @@
     The only possible solutions are to "sneak" into the validation process and populate the warnings
     through signals (or similar) and to handle the warnings externally to the reactive forms.
   </p>
+  <p>
+    Note: async validators run only if sync are passed. This behavior is explicitly mentioned in Angular's documentation:
+    <a href="https://angular.dev/guide/forms/form-validation#creating-asynchronous-validators" target="_blank">Creating Asynchronous Validators</a>
+  </p>
+  <cite>It is important to note that the asynchronous validation happens after the synchronous validation, and is performed only if the synchronous validation is successful. This check allows forms to avoid potentially expensive async validation processes such as an HTTP request if more basic validation methods fail.</cite>
 
   <div class="flex-row p-2">
     <div [formGroup]="form" aria-label="form" class="flex-column flex-1">
@@ -99,6 +104,11 @@
     <mat-tab label="TS">
       <pre class="m-0">
         <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="TS improved">
+      <pre class="m-0">
+        <code [highlight]="tsCode2" language="typescript" lineNumbers [singleLine]="true"></code>
       </pre>
     </mat-tab>
   </mat-tab-group>

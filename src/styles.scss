@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@import "@ng-select/ng-select/themes/default.theme.css";
 
 $theme: mat.define-theme((
   color: (
@@ -26,6 +27,12 @@ td.hljs-ln-numbers {
 }
 td.hljs-ln-code {
   padding-left: 10px !important;
+}
+
+ng-select.has-error .ng-select-container,
+ng-select.ng-invalid .ng-select-container,
+ng-select.invalid .ng-select-container {
+    border-color: #ba1a1a;
 }
 
 :root {

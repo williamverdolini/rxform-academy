@@ -1,26 +1,18 @@
 <div class="p-2">
-  <h2>Form with dynamic components</h2>
+  <h2>Validations: synchronous, asynchronous, control and group validations</h2>
   <p>
-    When talking about dynamic components, it's important to distinguish between components
-    that are displayed dynamically based on the form's conditions and components that are
-    created dynamically based on user choices.
+    This part delves into the intricacies of implementing reactive form validations in Angular,
+    using a practical example of a form validation component. The example leverages Angular's <code>ReactiveFormsModule</code>
+    to create a robust form with multiple controls, including text inputs, checkboxes, and date pickers.
   </p>
   <p>
-    Keep in mind that reactive forms are DECLARATIVE, meaning they are managed in the
-    component's code independently of their HTML binding.
-    This means that even if the control is NOT rendered, the control exists and must be managed.
-    What does this mean? It means that even if a control is not rendered,
-    its validity state affects the validity state of the entire form,
-    unless the control is disabled.
-  </p>
-  <p>
-    Below is an example of a form with a control that is rendered based on the user's choice.
-    Forms that are truly created dynamically are more difficult to manage and require the form
-    to be loosely typed, using constructs like <a href="https://angular.dev/api/forms/FormRecord" target="_blank"><code>FormRecord</code></a>.
+    The component demonstrates the use of both synchronous and asynchronous validators to enforce rules such as required fields,
+    date comparisons, and unique nickname checks. It also showcases how to dynamically enable or disable form controls
+    based on user interactions and how to provide real-time feedback by updating error messages as the form's state changes.
   </p>
 
   <div class="flex-row p-2">
-    <div [formGroup]="form" class="flex-column flex-1">
+    <div [formGroup]="form" aria-label="form" class="flex-column flex-1">
       <mat-form-field>
         <mat-label for="title">Lesson Title</mat-label>
         <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
@@ -30,14 +22,10 @@
           }
         </mat-autocomplete>
       </mat-form-field>
-      <div class="flex-row">
+      <div class="flex-column">
         <div>
           <mat-label for="completed">Course completed</mat-label>
-          <mat-checkbox name="completed" formControlName="completed"></mat-checkbox>
-        </div>
-        <div>
-          <button mat-button (click)="togglePeriod()">switch Period Enable</button>
-          <button mat-button (click)="toggleAutomaticPeriod()">Automatic</button>
+          <mat-checkbox name="completed" aria-label="Course completed" formControlName="completed"></mat-checkbox>
         </div>
       </div>
       @if (form.get('completed')?.value) {
@@ -63,12 +51,24 @@
           <input name="nickname" formControlName="nickname" type="text" matInput/>
         </mat-form-field>
       </div>
-      <div class="example-button-row">
+      @if (form.dirty && form.invalid) {
+      <div class="flex-column" role="alert">
+          <mat-error>
+            Attention! The form contains the following errors:
+            <ol>
+              @for (item of errorMessages(); track item) {
+                <li>{{item}}</li>
+              }
+            </ol>
+          </mat-error>
+        </div>
+      }
+      <div class="flex-row">
         <button mat-button (click)="form.reset()">Reset</button>
         <button mat-button mat-flat-button [disabled]="form.invalid">Save</button>
       </div>
     </div>
-    <div class="flex-1 p-2">
+    <div class="flex-1 p-h-2">
       <p>The value of the form:</p>
       <pre class="flex-1 m-0">
         <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
@@ -85,6 +85,11 @@
     <mat-tab label="TS">
       <pre class="m-0">
         <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="nickName-check-validator.ts">
+      <pre class="m-0">
+        <code [highlight]="asyncValidatorCode" language="typescript" lineNumbers [singleLine]="true"></code>
       </pre>
     </mat-tab>
   </mat-tab-group>

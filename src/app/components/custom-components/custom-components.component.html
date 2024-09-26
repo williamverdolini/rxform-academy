@@ -1,23 +1,22 @@
 <div class="p-2">
-  <h2>How to create a form with Form Builder</h2>
+  <h2>Form with custom components</h2>
   <p>
-    The following form initializes synchronously with values and sets controls as NON-NULLABLE.
+    In the following example, you can see how it is possible to insert a custom component within
+    a reactive form.
   </p>
   <p>
-    Care must be taken in managing the controls of a form and ensuring they are always nullable, in case of a reset, unless the fields are truly NON-NULLABLE.
+    It is sufficient for the component to inject the <code>NG_VALUE_ACCESSOR</code> provider and extend the
+    <code>ControlValueAccessor</code> interface.
+    This interface allows you to connect the functions that the reactive form engine uses to manage values
+    with the specific management of the custom component.
   </p>
 
   <div class="flex-row p-2">
     <div [formGroup]="form" class="flex-column flex-1">
-      <mat-form-field>
-        <mat-label for="title">Lesson Title</mat-label>
-        <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          @for (option of titles; track option) {
-            <mat-option [value]="option">{{option}}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
+      <mat-label for="title">Lesson Title</mat-label>
+      <app-property-selector name="title" formControlName="title" [propertyNameOrId]="'lessons'"
+        [placeholder]="'choose a lesson'" [multiple]="false">
+      </app-property-selector>
       <div class="flex-column">
         <div>
           <mat-label for="completed">Course completed</mat-label>
@@ -28,13 +27,13 @@
       <div class="flex-row" formGroupName="period">
         <mat-form-field class="flex-1">
           <mat-label for="fromDate">From Date</mat-label>
-          <input name="fromDate" formControlName="fromDate" [matDatepicker]="pickerFD" matInput/>
+          <input name="fromDate" formControlName="fromDate" [matDatepicker]="pickerFD" matInput />
           <mat-datepicker-toggle matIconSuffix [for]="pickerFD"></mat-datepicker-toggle>
           <mat-datepicker #pickerFD></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="flex-1 m-l-1">
           <mat-label for="toDate">To Date</mat-label>
-          <input name="toDate" formControlName="toDate" [matDatepicker]="pickerTD" matInput/>
+          <input name="toDate" formControlName="toDate" [matDatepicker]="pickerTD" matInput />
           <mat-datepicker-toggle matIconSuffix [for]="pickerTD"></mat-datepicker-toggle>
           <mat-datepicker #pickerTD></mat-datepicker>
         </mat-form-field>
@@ -42,7 +41,7 @@
       <div class="flex-column">
         <mat-form-field>
           <mat-label for="nickname">Nickname</mat-label>
-          <input name="nickname" formControlName="nickname" type="text" matInput/>
+          <input name="nickname" formControlName="nickname" type="text" matInput />
         </mat-form-field>
       </div>
       <div class="example-button-row">
@@ -58,6 +57,14 @@
     </div>
   </div>
 
+  <div class="flex-row p-2">
+      <p>
+        Sometimes it is necessary to transfer the validation state of the custom component to the internal elements.
+        In this case, to avoid circular reference issues, you need to remove the <code>NG_VALIDATORS</code> provider
+        and inject the reference to NgControl to access the validation state. At this point, you can access the control's state and use it to condition the internal style.
+      </p>
+  </div>
+
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
     <mat-tab label="HTML">
       <pre class="m-0">
@@ -67,6 +74,16 @@
     <mat-tab label="TS">
       <pre class="m-0">
         <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="property-selector.component.ts">
+      <pre class="m-0">
+        <code [highlight]="componentCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="for nested styles">
+      <pre class="m-0">
+        <code [highlight]="modifiedCustomPropCode" language="typescript" lineNumbers [singleLine]="true"></code>
       </pre>
     </mat-tab>
   </mat-tab-group>

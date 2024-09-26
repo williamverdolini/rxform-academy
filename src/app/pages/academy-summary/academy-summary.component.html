@@ -1,82 +1,76 @@
 <div class="m-h-6 p-6">
-
-  <mat-stepper orientation="vertical" #stepper class="stepperTop" (selectionChange)="onStepperSelectionChange($event)">
-    <mat-step [stepControl]="f1">
-      <div>
-        <ng-template matStepLabel>Form Builder Academy: Table of contents</ng-template>
-        <ng-template matStepContent>
-          <div class="m-t-1">
-            <h2>Welcome to the Form Builder Academy!</h2>
-            <p>In this course, we will cover:</p>
-            <ol start="2">
-              <li><button mat-button (click)="goToStep(stepper, 1)">How to create a form with Form Builder</button></li>
-              <li><button mat-button (click)="goToStep(stepper, 2)">Use nonNullable types and correctly manage form reset</button></li>
-              <li><button mat-button (click)="goToStep(stepper, 3)">How to initialize a form asynchronously</button></li>
-              <li><button mat-button (click)="goToStep(stepper, 4)">Form with dynamic components</button></li>
-              <li>Form with custom components</li>
-              <li>Validations: synchronous, asynchronous, group, and form validations</li>
-              <li>Validations: displaying error messages</li>
-              <li>Validations: how to handle warnings?</li>
-              <li>How to test a component with reactive forms</li>
-            </ol>
-          </div>
-          <div>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </ng-template>
-      </div>
-    </mat-step>
-    <mat-step [stepControl]="f1" data-step="1">
-      <ng-template matStepLabel matStepperIcon="phone">How to create a form with Form Builder</ng-template>
-      <ng-template matStepContent>
-        <app-form-builder-intro></app-form-builder-intro>
-        <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </ng-template>
-    </mat-step>
-    <mat-step [stepControl]="f1" data-step="2">
-      <ng-template matStepLabel>Compose a form with groups and correctly handle types (nonNullable, reset)</ng-template>
-      <ng-template matStepContent>
-        <app-non-nullable-controls></app-non-nullable-controls>
-        <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </ng-template>
-    </mat-step>
-    <mat-step [stepControl]="f1" data-step="3">
-      <ng-template matStepLabel>How to initialize a form asynchronously</ng-template>
-      <ng-template matStepContent>
-        <app-async-initialization></app-async-initialization>
-        <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </ng-template>
-    </mat-step>
-    <mat-step [stepControl]="f1" data-step="4">
-      <ng-template matStepLabel>Form with dynamic components</ng-template>
-      <ng-template matStepContent>
-        <app-dynamic-component></app-dynamic-component>
-        <div>
-          <button mat-button (click)="goToStep(stepper, 0)">TOC</button>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </ng-template>
-    </mat-step>
-    <mat-step [stepControl]="f1" data-step="finish">
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
-    </mat-step>
-  </mat-stepper>
+  <div style="margin-bottom: 500px;">
+    <div class="m-t-1">
+      <h2>Welcome to the Form Builder Academy!</h2>
+      <p>In this course, we will cover:</p>
+      <mat-accordion #accordion>
+        <mat-expansion-panel *ngFor="let panel of panels; let i = index" (opened)="panel.expanded = true"
+          (closed)="panel.expanded = false" (afterExpand)="scrollToTop()">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ panel.title }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-container *ngIf="panel.expanded">
+            <ng-container [ngSwitch]="panel.component">
+              <app-form-builder-intro *ngSwitchCase="'app-form-builder-intro'"></app-form-builder-intro>
+              <app-non-nullable-controls *ngSwitchCase="'app-non-nullable-controls'"></app-non-nullable-controls>
+              <app-async-initialization *ngSwitchCase="'app-async-initialization'"></app-async-initialization>
+              <app-dynamic-control *ngSwitchCase="'app-dynamic-control'"></app-dynamic-control>
+              <app-custom-components *ngSwitchCase="'app-custom-components'"></app-custom-components>
+              <app-form-validations *ngSwitchCase="'app-form-validations'"></app-form-validations>
+              <app-form-composing *ngSwitchCase="'app-form-composing'"></app-form-composing>
+              <app-form-composing-communicating
+                *ngSwitchCase="'form-composing-communicating'"></app-form-composing-communicating>
+              <app-form-testing *ngSwitchCase="'app-form-testing'"></app-form-testing>
+              <app-form-warnings *ngSwitchCase="'app-form-warnings'"></app-form-warnings>
+              <ng-container *ngSwitchCase="'conclusions'">
+                <h3>Conclusions</h3>
+                <p>Reactive forms provide a robust and scalable way to manage complex forms in Angular applications.
+                  Here are some pros and cons compared to template-driven forms:</p>
+                <h4>Pros:</h4>
+                <ul>
+                  <li><strong>Scalability:</strong> Reactive forms are more suitable for complex forms with dynamic
+                    controls and validations.</li>
+                  <li><strong>Testability:</strong> They are easier to unit test due to their synchronous nature and
+                    explicit structure.</li>
+                  <li><strong>Type Safety:</strong> Reactive forms offer better type safety, especially with the use of
+                    nonNullable types.</li>
+                  <li><strong>Performance:</strong> They generally perform better with large forms as they reduce change
+                    detection cycles.</li>
+                </ul>
+                <h4>(human made 😅):</h4>
+                <ul>
+                  <li><strong>Low complexity:</strong> Once you get familiar with it, things are easy and quick to
+                    implement, and it often works on the first try.</li>
+                  <li><strong>Design:</strong> Forces you to think in terms of form design, separating validation logic
+                    from store logic or component logic, for example.</li>
+                  <li><strong>Extensibility:</strong> With a modular architecture in mind, dynamically created forms
+                    with the ability to add runtime validations is the way to go.</li>
+                </ul>
+                <h4>Cons:</h4>
+                <ul>
+                  <li><s><strong>Complexity:</strong> Reactive forms can be more complex and verbose to set up compared
+                      to template-driven forms.</s></li>
+                  <li><strong>Complexity:</strong> When it comes to managing composition or reuse of components with
+                    dynamic behaviors, things get complicated because you don't have control over everything as you do
+                    with <code>template-driven forms</code>.</li>
+                  <li><strong>Learning Curve:</strong> They have a steeper learning curve, especially for developers new
+                    to Angular.</li>
+                </ul>
+                <h4>(human made):</h4>
+                <ul>
+                  <li><strong>Watch out for reactivity:</strong> validations and form data logic need to be handled
+                    carefully to avoid creating infinite loops.</li>
+                  <li><strong>Validation 2.0:</strong> error handling and validation methods (warnings) could be
+                    improved, and the current handling forces external or different management of warnings.</li>
+                </ul>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <button mat-button (click)="closePanel(i)">Close</button>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
 </div>

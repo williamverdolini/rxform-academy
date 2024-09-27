@@ -200,10 +200,12 @@ export class FormWarningsComponent {
 
     ...
 
-    if (this.form.controls.username.hasError('userNameLessThan8Char')) {
-      delete this.form.controls.username.errors!['userNameLessThan8Char'];
-      this.form.controls.username.updateValueAndValidity();
-      warns.push(\`Username should be at least 8 characters long\`);
+    if (this.form.controls.username.hasError('required')) {
+      messages.push('Username is required');
+      this.waningMessages.set([]); // <-- reset warnings
+    }
+    if (this.form.controls.username.hasError('usernameAlreadyExists')) {
+      messages.push(\`Username already exists. You could use: ${this.form.controls.username.getError('usernameAlreadyExists')?.suggestions.join(', ')}\`);
     }
     this.errorMessages.set(messages);
   }

@@ -14,6 +14,7 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionP
 import { FormComposingComponent } from '../../components/form-composing/form-composing.component';
 import { FormComposingCommunicatingComponent } from '../../components/form-composing-communicating/form-composing-communicating.component';
 import { FormComposingImprovedComponent } from '../../components/form-composing-improved/form-composing-improved.component';
+import { FormWarningsImprovedComponent } from '../../components/form-warnings-improved/form-warnings-improved.component';
 
 @Component({
   selector: 'app-academy-summary',
@@ -43,6 +44,7 @@ import { FormComposingImprovedComponent } from '../../components/form-composing-
     FormComposingComponent,
     FormComposingCommunicatingComponent,
     FormComposingImprovedComponent,
+    FormWarningsImprovedComponent,
   ],
   templateUrl: './academy-summary.component.html',
   styleUrl: './academy-summary.component.scss'
@@ -62,9 +64,10 @@ export class AcademySummaryComponent {
     { title: 'Form Validations', component: 'app-form-validations', expanded: false },
     { title: 'Form Composing', component: 'app-form-composing', expanded: false },
     { title: 'Form Composing & Communication (Advanced)', component: 'form-composing-communicating', expanded: false },
-    { title: 'Form Composing & Communication (Improved)', component: 'form-composing-improved', expanded: false },
+    { title: 'Form Composing & Communication (Improved)', component: 'form-composing-improved', expanded: false, isNew: true },
     { title: 'Form Testing', component: 'app-form-testing', expanded: false },
     { title: 'Form Warnings', component: 'app-form-warnings', expanded: false },
+    { title: 'Form Warnings (Improved)', component: 'app-form-warnings-improved', expanded: false, isNew: true },
     { title: 'Conclusions', component: 'conclusions', expanded: false }
   ];
 

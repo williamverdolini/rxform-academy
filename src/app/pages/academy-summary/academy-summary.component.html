@@ -9,6 +9,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ panel.title }}
+              @if (panel.isNew) {
+                <span class="new-badge">NEW</span>
+              }
             </mat-panel-title>
           </mat-expansion-panel-header>
           <ng-container *ngIf="panel.expanded">
@@ -26,6 +29,7 @@
                 *ngSwitchCase="'form-composing-improved'"></app-form-composing-improved>
               <app-form-testing *ngSwitchCase="'app-form-testing'"></app-form-testing>
               <app-form-warnings *ngSwitchCase="'app-form-warnings'"></app-form-warnings>
+              <app-form-warnings-improved *ngSwitchCase="'app-form-warnings-improved'"></app-form-warnings-improved>
               <ng-container *ngSwitchCase="'conclusions'">
                 <h3>Conclusions</h3>
                 <p>Reactive forms provide a robust and scalable way to manage complex forms in Angular applications.

@@ -9,6 +9,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ panel.title }}
+              @if (panel.isNew) {
+                <span class="new-badge">NEW</span>
+              }
             </mat-panel-title>
           </mat-expansion-panel-header>
           <ng-container *ngIf="panel.expanded">
@@ -22,8 +25,11 @@
               <app-form-composing *ngSwitchCase="'app-form-composing'"></app-form-composing>
               <app-form-composing-communicating
                 *ngSwitchCase="'form-composing-communicating'"></app-form-composing-communicating>
+              <app-form-composing-improved
+                *ngSwitchCase="'form-composing-improved'"></app-form-composing-improved>
               <app-form-testing *ngSwitchCase="'app-form-testing'"></app-form-testing>
               <app-form-warnings *ngSwitchCase="'app-form-warnings'"></app-form-warnings>
+              <app-form-warnings-improved *ngSwitchCase="'app-form-warnings-improved'"></app-form-warnings-improved>
               <ng-container *ngSwitchCase="'conclusions'">
                 <h3>Conclusions</h3>
                 <p>Reactive forms provide a robust and scalable way to manage complex forms in Angular applications.
@@ -50,8 +56,9 @@
                 </ul>
                 <h4>Cons:</h4>
                 <ul>
-                  <li><s><strong>Complexity:</strong> Reactive forms can be more complex and verbose to set up compared
-                      to template-driven forms.</s></li>
+                  <li> <strong>Complexity:</strong> Reactive forms can be more complex and verbose to set up compared
+                      to template-driven forms.
+                  </li>
                   <li><strong>Complexity:</strong> When it comes to managing composition or reuse of components with
                     dynamic behaviors, things get complicated because you don't have control over everything as you do
                     with <code>template-driven forms</code>.</li>

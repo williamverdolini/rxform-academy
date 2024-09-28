@@ -22,6 +22,8 @@
               <app-form-composing *ngSwitchCase="'app-form-composing'"></app-form-composing>
               <app-form-composing-communicating
                 *ngSwitchCase="'form-composing-communicating'"></app-form-composing-communicating>
+              <app-form-composing-improved
+                *ngSwitchCase="'form-composing-improved'"></app-form-composing-improved>
               <app-form-testing *ngSwitchCase="'app-form-testing'"></app-form-testing>
               <app-form-warnings *ngSwitchCase="'app-form-warnings'"></app-form-warnings>
               <ng-container *ngSwitchCase="'conclusions'">
@@ -50,8 +52,9 @@
                 </ul>
                 <h4>Cons:</h4>
                 <ul>
-                  <li><s><strong>Complexity:</strong> Reactive forms can be more complex and verbose to set up compared
-                      to template-driven forms.</s></li>
+                  <li> <strong>Complexity:</strong> Reactive forms can be more complex and verbose to set up compared
+                      to template-driven forms.
+                  </li>
                   <li><strong>Complexity:</strong> When it comes to managing composition or reuse of components with
                     dynamic behaviors, things get complicated because you don't have control over everything as you do
                     with <code>template-driven forms</code>.</li>

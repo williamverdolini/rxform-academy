@@ -1,0 +1,70 @@
+<div class="p-2">
+  <h2>Improved Form Composition with Internal Custom Components and Static Validators</h2>
+  <p>
+    This example demonstrates an improved approach to form composition, utilizing static validators exposed by the child component (AddressImprovedComponent).
+  </p>
+  <p>
+    Key improvements:
+  </p>
+  <ul>
+    <li>The address component exposes static validators (required and noMainStreet) that can be used by the parent form.</li>
+    <li>This approach allows for better encapsulation of validation logic within the child component.</li>
+    <li>The parent form can easily apply these validators without knowing the internal structure of the address component.</li>
+    <li>It provides flexibility to reuse the address component with different validation rules in various contexts.</li>
+    <li>The separation of concerns is maintained, as the child component defines its own validation logic, while the parent form decides which validations to apply.</li>
+  </ul>
+
+  <div class="flex-row p-2">
+    <div [formGroup]="form" class="flex-column flex-1">
+      <app-address-improved class="flex-column" formControlName="address"></app-address-improved>
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="nickname">Username</mat-label>
+          <input name="username" formControlName="username" type="text" matInput />
+        </mat-form-field>
+      </div>
+      <div class="example-button-row">
+        <button mat-button (click)="form.reset()">Reset</button>
+        <button mat-button mat-flat-button [disabled]="form.invalid">Save</button>
+      </div>
+      @if (form.dirty && form.invalid) {
+        <div class="flex-column" role="alert">
+            <mat-error>
+              Attention! The form contains the following errors:
+              <ol>
+                @for (item of errorMessages(); track item) {
+                  <li>{{item}}</li>
+                }
+              </ol>
+            </mat-error>
+          </div>
+        }
+    </div>
+    <div class="flex-1 p-h-2">
+      <p>The value of the form:</p>
+      <pre class="flex-1 m-0">
+        <code [highlight]="form.value | json" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </div>
+  </div>
+
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="HTML">
+      <pre class="m-0">
+        <code [highlight]="htmlCode" language="xml" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="TS">
+      <pre class="m-0">
+        <code [highlight]="tsCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="address-improved.component.ts">
+      <pre class="m-0">
+        <code [highlight]="addressImprovedComponentCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+  </mat-tab-group>
+
+  <!-- Add tabs for code examples here if needed -->
+</div>

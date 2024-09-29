@@ -35,6 +35,7 @@ describe('FormValidationsComponent', () => {
     expect(screen.queryByLabelText('From Date')).toBeInTheDocument();
     expect(screen.queryByLabelText('To Date')).toBeInTheDocument();
     expect(screen.queryByLabelText('Nickname')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Username')).toBeInTheDocument();
   });
 
   test('the form can be controlled in a typed way', async () => {
@@ -44,6 +45,7 @@ describe('FormValidationsComponent', () => {
     expect(form.value).toEqual({
       "completed": false,
       "nickname": "",
+      "username": "",
       "title": "",
     });
 
@@ -52,6 +54,7 @@ describe('FormValidationsComponent', () => {
     expect(form.value).toEqual({
       completed: true,
       nickname: "",
+      username: "",
       title: "",
       period: {
         fromDate: null,
@@ -83,28 +86,39 @@ describe('FormValidationsComponent', () => {
     expect(form.controls.period.errors).toEqual({ "toDateIsPreviousThanFromDate": true });
   });
 
-  test('the form check nickname for uniqueness', async () => {
+  test('the form check nickname and username for uniqueness', async () => {
     const { fixture } = await render(FormValidationsComponent);
     const form = fixture.componentInstance["form"];
 
     const nickname = screen.queryByLabelText('Nickname');
+    const username = screen.queryByLabelText('Username');
     fireEvent.input(nickname!, { target: { value: 'pippo' } });
+    fireEvent.input(username!, { target: { value: 'pippo' } });
 
     await waitFor(() => {
-      expect(nickname).toHaveValue('pippo');
       expect(form.valid).toBeFalsy();
-      expect(form.hasError("nicknameAlreadyExists", "nickname")).toBe(true);
-      expect(form.getError("nicknameAlreadyExists", "nickname"))
+      expect(nickname).toHaveValue('pippo');
+      expect(username).toHaveValue('pippo');
+      expect(form.hasError("usernameAlreadyExists", "nickname")).toBe(true);
+      expect(form.hasError("usernameAlreadyExists", "username")).toBe(true);
+      expect(form.getError("usernameAlreadyExists", "nickname"))
+        .toEqual({ "suggestions": [ "pippo123", "pippo_bis"] });
+      expect(form.getError("usernameAlreadyExists", "username"))
         .toEqual({ "suggestions": [ "pippo123", "pippo_bis"] });
       expect(form.controls.nickname.errors)
-        .toEqual({ nicknameAlreadyExists: { suggestions: [ "pippo123", "pippo_bis"] }});
+        .toEqual({ usernameAlreadyExists: { suggestions: [ "pippo123", "pippo_bis"] }});
+      expect(form.controls.username.errors)
+        .toEqual({ usernameAlreadyExists: { suggestions: [ "pippo123", "pippo_bis"] }});
     });
 
     fireEvent.input(nickname!, { target: { value: 'pippo123' } });
+    fireEvent.input(username!, { target: { value: 'pippo123' } });
 
     await waitFor(() => {
       expect(nickname).toHaveValue('pippo123');
-      expect(form.hasError("nicknameAlreadyExists", "nickname")).toBe(false);
+      expect(username).toHaveValue('pippo123');
+      expect(form.hasError("usernameAlreadyExists", "nickname")).toBe(false);
+      expect(form.hasError("usernameAlreadyExists", "username")).toBe(false);
     });
 
   });
@@ -135,6 +149,7 @@ describe('FormValidationsComponent', () => {
     fireEvent.input(screen.queryByLabelText('From Date')!, { target: { value: '2024-09-25' } });
     fireEvent.input(screen.queryByLabelText('To Date')!, { target: { value: '2024-10-15' } });
     fireEvent.input(screen.queryByLabelText('Nickname')!, { target: { value: 'pippo123' } });
+    fireEvent.input(screen.queryByLabelText('Username')!, { target: { value: 'pippo123' } });
 
     await waitFor(() => {
       expect(form.valid).toBeTruthy();

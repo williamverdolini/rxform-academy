@@ -51,6 +51,12 @@
           <input name="nickname" formControlName="nickname" type="text" matInput/>
         </mat-form-field>
       </div>
+      <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="username">Username</mat-label>
+          <input name="username" formControlName="username" type="text" matInput/>
+        </mat-form-field>
+      </div>
       @if (form.dirty && form.invalid) {
       <div class="flex-column" role="alert">
           <mat-error>
@@ -90,6 +96,11 @@
     <mat-tab label="nickName-check-validator.ts">
       <pre class="m-0">
         <code [highlight]="asyncValidatorCode" language="typescript" lineNumbers [singleLine]="true"></code>
+      </pre>
+    </mat-tab>
+    <mat-tab label="auto-bind.decorator.ts">
+      <pre class="m-0">
+        <code [highlight]="autoBindCode" language="typescript" lineNumbers [singleLine]="true"></code>
       </pre>
     </mat-tab>
   </mat-tab-group>

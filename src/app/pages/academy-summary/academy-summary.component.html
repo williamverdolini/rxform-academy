@@ -12,6 +12,9 @@
               @if (panel.isNew) {
                 <span class="new-badge">NEW</span>
               }
+              @if (panel.isUpdated) {
+                <span class="new-badge">UPDATED</span>
+              }
             </mat-panel-title>
           </mat-expansion-panel-header>
           <ng-container *ngIf="panel.expanded">

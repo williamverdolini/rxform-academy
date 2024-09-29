@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AddressItem } from './address.component';
+import { AddressItem } from '../../services/model';
 
 @Component({
   standalone: true,

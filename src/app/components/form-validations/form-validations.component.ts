@@ -59,8 +59,8 @@ export class FormValidationsComponent {
       {
         validators: [this.checkDatesValidator]
       }),
-    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.getValidator()] }),
-    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.validator] }),
+    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.isUniqueCheck()] }),
+    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.isUnique] }),
   });
 
   constructor() {
@@ -91,6 +91,9 @@ export class FormValidationsComponent {
     }
     if (this.form.controls.nickname.hasError('required')) {
       messages.push('Nickname is required');
+    }
+    if (this.form.controls.username.hasError('required')) {
+      messages.push('Username is required');
     }
     if (this.form.controls.nickname.hasError('usernameAlreadyExists')) {
       messages.push(`Nickname already exists. You could use: ${this.form.controls.nickname.getError('usernameAlreadyExists')?.suggestions.join(', ')}`);
@@ -184,8 +187,8 @@ export class FormValidationsComponent {
       {
         validators: [this.checkDatesValidator]
       }),
-    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.getValidator()] }),
-    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.validator] }),
+    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.isUniqueCheck()] }),
+    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.isUnique] }),
   });
 
   constructor() {
@@ -217,6 +220,9 @@ export class FormValidationsComponent {
     if (this.form.controls.nickname.hasError('required')) {
       messages.push('Nickname is required');
     }
+    if (this.form.controls.username.hasError('required')) {
+      messages.push('Username is required');
+    }
     if (this.form.controls.nickname.hasError('usernameAlreadyExists')) {
       messages.push(\`Nickname already exists. You could use: ${this.form.controls.nickname.getError('usernameAlreadyExists')?.suggestions.join(', ')}\`);
     }
@@ -228,14 +234,10 @@ export class FormValidationsComponent {
 }
 `;
 
-  protected asyncValidatorCode = `export interface AutonomousValidator {
-  getValidator(): AsyncValidatorFn;
-}
-
-@Injectable({
+  protected asyncValidatorCode = `@Injectable({
   providedIn: 'root'
 })
-export class UserNameAsyncValidator implements AutonomousValidator {
+export class UserNameAsyncValidator {
   #dr = inject(DataReaderService);
 
   #validate(control: AbstractControl): Observable<ValidationErrors | null> {
@@ -246,21 +248,19 @@ export class UserNameAsyncValidator implements AutonomousValidator {
     );
   }
 
-  // first approach: with interface method to return the validator binded with service instance
-  getValidator(): AsyncValidatorFn {
+  isUniqueCheck(): AsyncValidatorFn {
     return this.#validate.bind(this);
   }
 
   // second approach: with decorator to bind the service instance to the validator
   @AutoBind()
-  validator(control: AbstractControl): Observable<ValidationErrors | null> {
+  isUnique(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.#validate(control);
   }
 }
 `;
 
-protected autoBindCode = `
-/**
+protected autoBindCode = `/**
  * AutoBind is a decorator that automatically binds the method it decorates
  * to the instance of the class in which it is defined. This is particularly
  * useful for methods that are passed as callbacks, ensuring that the correct
@@ -279,17 +279,24 @@ protected autoBindCode = `
  * - It stores the original method in a variable.
  * - It creates a new property descriptor that overrides the \`get\` method,
  *   which returns the original method bound to the current instance (\`this\`).
+ * - Additionally, it defines a \`validatorName\` property on the bound function,
+ *   which can be used to identify the validator by name.
  * - This ensures that whenever the method is called, it retains the correct
  *   context, regardless of how it is invoked.
  */
-export function AutoBind() {
+export function AutoBind(bindName?: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     const adjDescriptor: PropertyDescriptor = {
       configurable: true,
       enumerable: false,
       get() {
-        return originalMethod.bind(this);
+        const boundFn = originalMethod.bind(this);
+        Object.defineProperty(boundFn, 'validatorName', {
+          value: bindName ?? originalMethod.name,
+          writable: false
+        });
+        return boundFn;
       },
     };
     return adjDescriptor;

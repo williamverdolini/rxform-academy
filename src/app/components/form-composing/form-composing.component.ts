@@ -11,9 +11,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { AddressComponent, AddressItem } from '../address.component';
+import { AddressComponent } from './address.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
+import { AddressItem } from '../../services/model';
 
 @Component({
   selector: 'app-form-composing',

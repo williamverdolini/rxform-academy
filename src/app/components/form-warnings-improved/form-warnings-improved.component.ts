@@ -14,7 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { map, Observable, of, switchMap, timer } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataReaderService } from '../../services/data-reader.service';
-import { CustomFormControl as FormControlWithWarning } from '../form-warnings/custom-form-control';
+import { FormControlWithWarning as FormControlWithWarning } from '../form-warnings/warnings-form-control';
 
 @Component({
   selector: 'app-form-warnings-improved',
@@ -95,7 +95,7 @@ export class FormWarningsImprovedComponent {
       {
         validators: [this.checkDatesValidator]
       }),
-    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.usernameValidator()] }) as FormControlWithWarning,
+    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.usernameValidator()] }),
   });
 
   constructor() {
@@ -279,10 +279,15 @@ export class FormWarningsImprovedComponent {
     username: new FormControl<string>('', {
       validators: [Validators.required],
       asyncValidators: [this.usernameValidator()]
-    }) as FormControlWithWarning,
+    }),
   });
 
   // ... other methods ...
 }
 `;
+
+  protected warningsFormControlCode = `export interface FormControlWithWarning extends AbstractControl {
+  warnings?: string[];
+}
+`
 }

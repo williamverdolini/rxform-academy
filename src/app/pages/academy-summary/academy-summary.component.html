@@ -10,10 +10,10 @@
             <mat-panel-title>
               {{ panel.title }}
               @if (panel.isNew) {
-                <span class="new-badge">NEW</span>
+                <span class="new-badge">NEW (v{{ panel.version }})</span>
               }
               @if (panel.isUpdated) {
-                <span class="new-badge">UPDATED</span>
+                <span class="updated-badge">UPDATED (v{{ panel.version }})</span>
               }
             </mat-panel-title>
           </mat-expansion-panel-header>

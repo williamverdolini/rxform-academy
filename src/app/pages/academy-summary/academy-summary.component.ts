@@ -61,13 +61,13 @@ export class AcademySummaryComponent {
     { title: 'Async Initialization', component: 'app-async-initialization', expanded: false },
     { title: 'Dynamic Control', component: 'app-dynamic-control', expanded: false },
     { title: 'Custom Control', component: 'app-custom-components', expanded: false },
-    { title: 'Form Validations', component: 'app-form-validations', expanded: false, isUpdated: true },
+    { title: 'Form Validations', component: 'app-form-validations', expanded: false, isUpdated: true, version: '0.3.0' },
     { title: 'Form Composing', component: 'app-form-composing', expanded: false },
     { title: 'Form Composing & Communication (Advanced)', component: 'form-composing-communicating', expanded: false },
-    { title: 'Form Composing & Communication (Improved)', component: 'form-composing-improved', expanded: false, isNew: true },
+    { title: 'Form Composing & Communication (Improved)', component: 'form-composing-improved', expanded: false, isNew: true, version: '0.2.0' },
     { title: 'Form Testing', component: 'app-form-testing', expanded: false },
     { title: 'Form Warnings', component: 'app-form-warnings', expanded: false },
-    { title: 'Form Warnings (Improved)', component: 'app-form-warnings-improved', expanded: false, isNew: true },
+    { title: 'Form Warnings (Improved)', component: 'app-form-warnings-improved', expanded: false, isNew: true, version: '0.2.0' },
     { title: 'Conclusions', component: 'conclusions', expanded: false }
   ];
 

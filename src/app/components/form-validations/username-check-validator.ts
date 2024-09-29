@@ -9,14 +9,10 @@ import { DataReaderService } from '../../services/data-reader.service';
 import { inject, Injectable } from '@angular/core';
 import { AutoBind } from './auto-bind.decorator';
 
-export interface AutonomousValidator {
-  getValidator(): AsyncValidatorFn;
-}
-
 @Injectable({
   providedIn: 'root'
 })
-export class UserNameAsyncValidator implements AutonomousValidator {
+export class UserNameAsyncValidator {
   #dr = inject(DataReaderService);
 
   #validate(control: AbstractControl): Observable<ValidationErrors | null> {
@@ -28,13 +24,13 @@ export class UserNameAsyncValidator implements AutonomousValidator {
   }
 
   // first approach: with interface method to return the validator binded with service instance
-  getValidator(): AsyncValidatorFn {
+  isUniqueCheck(): AsyncValidatorFn {
     return this.#validate.bind(this);
   }
 
   // second approach: with decorator to bind the service instance to the validator
   @AutoBind()
-  validator(control: AbstractControl): Observable<ValidationErrors | null> {
+  isUnique(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.#validate(control);
   }
 }

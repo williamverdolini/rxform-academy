@@ -1,4 +1,3 @@
-
 /**
  * AutoBind is a decorator that automatically binds the method it decorates
  * to the instance of the class in which it is defined. This is particularly
@@ -18,17 +17,24 @@
  * - It stores the original method in a variable.
  * - It creates a new property descriptor that overrides the `get` method,
  *   which returns the original method bound to the current instance (`this`).
+ * - Additionally, it defines a `validatorName` property on the bound function,
+ *   which can be used to identify the validator by name.
  * - This ensures that whenever the method is called, it retains the correct
  *   context, regardless of how it is invoked.
  */
-export function AutoBind() {
+export function AutoBind(bindName?: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     const adjDescriptor: PropertyDescriptor = {
       configurable: true,
       enumerable: false,
       get() {
-        return originalMethod.bind(this);
+        const boundFn = originalMethod.bind(this);
+        Object.defineProperty(boundFn, 'validatorName', {
+          value: bindName ?? originalMethod.name,
+          writable: false
+        });
+        return boundFn;
       },
     };
     return adjDescriptor;

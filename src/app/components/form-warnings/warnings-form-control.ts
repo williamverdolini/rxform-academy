@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
 
-export interface CustomFormControl extends AbstractControl {
+export interface FormControlWithWarning extends AbstractControl {
   warnings?: string[];
 }

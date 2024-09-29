@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Highlight } from 'ngx-highlightjs';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -11,9 +11,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { map, merge, Observable, switchMap, timer } from 'rxjs';
+import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataReaderService } from '../../services/data-reader.service';
+import { UserNameAsyncValidator } from './username-check-validator';
 
 @Component({
   selector: 'app-form-validations',
@@ -36,7 +37,8 @@ import { DataReaderService } from '../../services/data-reader.service';
 })
 export class FormValidationsComponent {
   #fb = inject(FormBuilder);
-  #dr = inject(DataReaderService);
+  #userNameValidator = inject(UserNameAsyncValidator);
+
   protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 4'];
   protected errorMessages = signal<string[]>([]);
 
@@ -44,15 +46,6 @@ export class FormValidationsComponent {
     let fromDate = group.get('fromDate')?.value;
     let toDate = group.get('toDate')?.value;
     return !!fromDate && toDate > fromDate ? null : { toDateIsPreviousThanFromDate: true }
-  }
-
-  private nicknameCheckValidator: AsyncValidatorFn = (control: AbstractControl<string>): Observable<ValidationErrors | null> => {
-    return timer(100).pipe(
-      switchMap(() => {
-        return this.#dr.isValidNickname(control.value);
-      }),
-      map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions } } : null)
-    );
   }
 
   protected form = this.#fb.group({
@@ -66,7 +59,8 @@ export class FormValidationsComponent {
       {
         validators: [this.checkDatesValidator]
       }),
-    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.nicknameCheckValidator] }),
+    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.getValidator()] }),
+    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.validator] }),
   });
 
   constructor() {
@@ -98,13 +92,16 @@ export class FormValidationsComponent {
     if (this.form.controls.nickname.hasError('required')) {
       messages.push('Nickname is required');
     }
-    if (this.form.controls.nickname.hasError('nicknameAlreadyExists')) {
-      messages.push(`Nickname already exists. You could use: ${this.form.controls.nickname.getError('nicknameAlreadyExists')?.suggestions.join(', ')}`);
+    if (this.form.controls.nickname.hasError('usernameAlreadyExists')) {
+      messages.push(`Nickname already exists. You could use: ${this.form.controls.nickname.getError('usernameAlreadyExists')?.suggestions.join(', ')}`);
+    }
+    if (this.form.controls.username.hasError('usernameAlreadyExists')) {
+      messages.push(`Username already exists. You could use: ${this.form.controls.nickname.getError('usernameAlreadyExists')?.suggestions.join(', ')}`);
     }
     this.errorMessages.set(messages);
   }
 
-  protected htmlCode = `    <div [formGroup]="form" class="flex-column flex-1">
+  protected htmlCode = `    <div [formGroup]="form" aria-label="form" class="flex-column flex-1">
       <mat-form-field>
         <mat-label for="title">Lesson Title</mat-label>
         <input type="text" name="title" matInput formControlName="title" [matAutocomplete]="auto">
@@ -117,7 +114,7 @@ export class FormValidationsComponent {
       <div class="flex-column">
         <div>
           <mat-label for="completed">Course completed</mat-label>
-          <mat-checkbox name="completed" formControlName="completed"></mat-checkbox>
+          <mat-checkbox name="completed" aria-label="Course completed" formControlName="completed"></mat-checkbox>
         </div>
       </div>
       @if (form.get('completed')?.value) {
@@ -143,8 +140,14 @@ export class FormValidationsComponent {
           <input name="nickname" formControlName="nickname" type="text" matInput/>
         </mat-form-field>
       </div>
-      @if (form.touched && form.invalid) {
       <div class="flex-column">
+        <mat-form-field>
+          <mat-label for="username">Username</mat-label>
+          <input name="username" formControlName="username" type="text" matInput/>
+        </mat-form-field>
+      </div>
+      @if (form.dirty && form.invalid) {
+      <div class="flex-column" role="alert">
           <mat-error>
             Attention! The form contains the following errors:
             <ol>
@@ -159,7 +162,8 @@ export class FormValidationsComponent {
 
   protected tsCode = `export class FormValidationsComponent {
   #fb = inject(FormBuilder);
-  #dr = inject(DataReaderService);
+  #userNameValidator = inject(UserNameAsyncValidator);
+
   protected titles: string[] = ['Lesson 1', 'Lesson 2', 'Lesson 3', 'Lesson 4'];
   protected errorMessages = signal<string[]>([]);
 
@@ -167,15 +171,6 @@ export class FormValidationsComponent {
     let fromDate = group.get('fromDate')?.value;
     let toDate = group.get('toDate')?.value;
     return !!fromDate && toDate > fromDate ? null : { toDateIsPreviousThanFromDate: true }
-  }
-
-  private nicknameCheckValidator: AsyncValidatorFn = (control: AbstractControl<string>): Observable<ValidationErrors | null> => {
-    return timer(500).pipe(
-      switchMap(() => {
-        return this.#dr.isValidNickname(control.value);
-      }),
-      map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions} } : null)
-    );
   }
 
   protected form = this.#fb.group({
@@ -189,7 +184,8 @@ export class FormValidationsComponent {
       {
         validators: [this.checkDatesValidator]
       }),
-    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.nicknameCheckValidator] }),
+    nickname: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.getValidator()] }),
+    username: new FormControl<string>('', { validators: [Validators.required], asyncValidators: [this.#userNameValidator.validator] }),
   });
 
   constructor() {
@@ -221,33 +217,83 @@ export class FormValidationsComponent {
     if (this.form.controls.nickname.hasError('required')) {
       messages.push('Nickname is required');
     }
-    if (this.form.controls.nickname.hasError('nicknameAlreadyExists')) {
-      messages.push(\`Nickname already exists. You could use: \${this.form.controls.nickname.getError('nicknameAlreadyExists')?.suggestions.join(', ')}\`);
+    if (this.form.controls.nickname.hasError('usernameAlreadyExists')) {
+      messages.push(\`Nickname already exists. You could use: ${this.form.controls.nickname.getError('usernameAlreadyExists')?.suggestions.join(', ')}\`);
+    }
+    if (this.form.controls.username.hasError('usernameAlreadyExists')) {
+      messages.push(\`Username already exists. You could use: ${this.form.controls.nickname.getError('usernameAlreadyExists')?.suggestions.join(', ')}\`);
     }
     this.errorMessages.set(messages);
   }
 }
 `;
 
-  protected asyncValidatorCode = `import {
-  AbstractControl,
-  AsyncValidatorFn,
-  ValidationErrors,
-} from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DataReaderService } from '../../services/data-reader.service';
+  protected asyncValidatorCode = `export interface AutonomousValidator {
+  getValidator(): AsyncValidatorFn;
+}
 
-export class NickNameCheckValidator {
-  static createValidator(readerClient: DataReaderService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return readerClient
-        .isValidNickname(control.value)
-        .pipe(
-          map(res => !res.valid ? { nicknameAlreadyExists: { suggestions: res.suggestions } } : null)
-        );
-    };
+@Injectable({
+  providedIn: 'root'
+})
+export class UserNameAsyncValidator implements AutonomousValidator {
+  #dr = inject(DataReaderService);
+
+  #validate(control: AbstractControl): Observable<ValidationErrors | null> {
+    return this.#dr
+    .isValidNickname(control.value)
+    .pipe(
+      map(res => !res.valid ? { usernameAlreadyExists: { suggestions: res.suggestions } } : null)
+    );
   }
+
+  // first approach: with interface method to return the validator binded with service instance
+  getValidator(): AsyncValidatorFn {
+    return this.#validate.bind(this);
+  }
+
+  // second approach: with decorator to bind the service instance to the validator
+  @AutoBind()
+  validator(control: AbstractControl): Observable<ValidationErrors | null> {
+    return this.#validate(control);
+  }
+}
+`;
+
+protected autoBindCode = `
+/**
+ * AutoBind is a decorator that automatically binds the method it decorates
+ * to the instance of the class in which it is defined. This is particularly
+ * useful for methods that are passed as callbacks, ensuring that the correct
+ * context (i.e., \`this\`) is maintained when the method is invoked.
+ *
+ * Usage:
+ *
+ * @AutoBind()
+ * methodName() {
+ *   // 'this' refers to the instance of the class
+ * }
+ *
+ * How it works:
+ * - The decorator returns a function that takes the target object, the name
+ *   of the property (method), and the property descriptor as arguments.
+ * - It stores the original method in a variable.
+ * - It creates a new property descriptor that overrides the \`get\` method,
+ *   which returns the original method bound to the current instance (\`this\`).
+ * - This ensures that whenever the method is called, it retains the correct
+ *   context, regardless of how it is invoked.
+ */
+export function AutoBind() {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const adjDescriptor: PropertyDescriptor = {
+      configurable: true,
+      enumerable: false,
+      get() {
+        return originalMethod.bind(this);
+      },
+    };
+    return adjDescriptor;
+  };
 }
 `;
 }
